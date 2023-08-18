@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Friend List{% endblock %}
+
+{% block content %}
+
+<section class="container">
+    <a class="btns" href="{{request.META.HTTP_REFERER}}"><i class="fa-solid fa-arrow-left"></i> Go back</a>
+    {% for friend in friends %}
+    <div>
+        <div>
+            <a class="links" href="{% url 'profiles:profile' friend.profile.id %}">{{ friend }}</a>
+            <a href="{% url 'profiles:unfriend' friend.profile.id %}" class="btns-cancel"><i class="fa-solid fa-user-minus"></i> Remove Friend</a>
+        </div>
+    </div>
+    <hr/>
+    {% empty %}
+    <p>No friends found.</p>
+    {% endfor %}
+</section>
+
+{% endblock %}

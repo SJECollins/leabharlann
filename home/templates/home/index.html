@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+<!-- Title-->
+{% block title %}Home{% endblock %}
+
+<!-- Page content-->
+{% block content %}
+<!-- Hero section-->
+<section>
+    <div class="container">
+        <div class="row">
+            <div id="hero-welcome" class="col-12">
+                <div id="hero-text">
+                    <h1 class="hero">Welcome to Mo Leabharlann</h1>
+                    <h2 class="lead">Your personal library</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% if user.is_authenticated %}
+<!-- User section-->
+<section class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2>Go to:
+                <a class="links" href="{% url 'shelf:myshelf' user.pk %}">My Shelf</a>
+            </h2>
+        </div>
+    </div>
+</section>
+<section class="container">
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="col-12 mb-4">
+                <h3><i class="fa-solid fa-book-open-reader"></i> Currently Reading:</h3>
+                {% if current_book %}
+                <a class="links" href="{% url 'mybooks:mybook-detail' current_book.id %}">
+                    <h4>{{ current_book }}</h4>
+                </a>
+                {% else %}
+                <p>You're not currently reading anything.</p>
+                <a class="links" href="{% url 'mybooks:add-mybook' %}">Add A Book</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div>
+                <h3><i class="fa-solid fa-fire"></i> Popular Books:</h3>
+                <a class="links" href="{% url 'books:book-list' %}">View All Books</a>
+                {% for book in popular_books %}
+                <a class="links" href="{% url 'books:book-detail' book.id %}">
+                    <h4>{{ book }}</h4>
+                </a>
+                {% empty %}
+                <p>There are no popular books yet.</p>
+                {% endfor %}
+            </div>
+            <div>
+                <h3><i class="fa-solid fa-fire"></i> Popular Authors:</h3>
+                <a class="links" href="{% url 'books:author-list' %}">View All Authors</a>
+                {% for author in popular_authors %}
+                <a class="links" href="{% url 'books:author-detail' author.id %}">
+                    <h4>{{ author }}</h4>
+                </a>
+                {% empty %}
+                <p>There are no popular authors yet.</p>
+                {% endfor %}
+            </div>
+            <div>
+                <h3><i class="fa-solid fa-fire"></i> Popular Genres:</h3>
+                <a class="links" href="{% url 'books:genre-list' %}">View All Genres</a>
+                {% for genre in popular_genres %}
+                <a class="links" href="{% url 'books:genre-detail' genre.id %}">
+                    <h4>{{ genre }}</h4>
+                </a>
+                {% empty %}
+                <p>There are no popular genres yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% else %}
+<!-- Guest section-->
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-4">
+                <h2>What is Mo Leabharlann?</h2>
+                <p>Mo Leabharlann is a personal library app. It allows you to keep track of the books you've read, the
+                    books you're currently reading, and the books you want to read.</p>
+                <p>It also allows you to keep track of your favourite authors and genres.</p>
+                <p>It's a great way to keep track of your reading habits and to discover new books and authors.</p>
+            </div>
+        </div>
+        <div>
+            <div class="col-12 mb-4">
+                <h2>How do I get started?</h2>
+                <p>First, you'll need to create an account. You can do that by clicking the button below.</p>
+                <a class="links" href="{% url 'account_signup' %}">Sign Up <i
+                        class="fa-solid fa-arrow-right-to-bracket"></i></a>
+            </div>
+            <div class="col-12">
+                <h2>Already have an account?</h2>
+                <p>Great! You can sign in by clicking the button below.</p>
+                <a class="links" href="{% url 'account_login' %}">Sign In <i
+                        class="fa-solid fa-arrow-right-to-bracket"></i></a>
+            </div>
+        </div>
+</section>
+
+{% endif %}
+
+{% endblock %}

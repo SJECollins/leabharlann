@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+<!-- Page title -->
+{% block title %}
+{% if user == shelf_owner %}My {% else %}{{ shelf_owner}}'s {% endif %}Genre
+List {% endblock %}
+
+<!-- Page content -->
+{% block content %}
+
+<section class="container">
+  <div class="d-flex flex-row align-items-center justify-content-evenly book-shadow">
+    {% if user == shelf_owner %}
+    <a class="links" href="{% url 'shelf:myshelf' user.pk %}"
+      ><i class="fa-solid fa-arrow-left"></i>
+      Back to My Shelf
+    </a>
+    <a class="btns" href="{% url 'mygenres:add-mygenre' %}"
+      ><i class="fa-solid fa-plus"></i>
+      Add A Genre
+    </a>
+    {% else %}
+    <a class="links" href="{% url 'shelf:myshelf' shelf_owner.pk %}"
+      ><i class="fa-solid fa-arrow-left"></i>
+      Back to {{ shelf_owner}}'s Shelf
+    </a>
+    {% endif %}
+    <form method="GET" action="{% url 'mygenres:mygenres' shelf_owner.pk %}" class="d-flex flex-row">
+      <input
+        class="form-control"
+        type="text"
+        name="search"
+        placeholder="Search by genre"
+      />
+      <button class="btns" type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </form>
+  </div>
+</section>
+<section class="container">
+  <h1 class="text-center">
+    {% if user == shelf_owner %}My {% else %}
+    <!-- Stop breaking tags-->
+    {{ shelf_owner}}'s {% endif %}Genre List
+  </h1>
+  <div>
+    <p>Total Genres: {{ mygenres_count }}</p>
+  </div>
+  <div>
+    <div class="sorter d-flex flex-row justify-content-end">
+        <form method="GET" action="{% url 'mygenres:mygenres' shelf_owner.pk %}">
+            <select
+            class="form-select"
+            name="filterkey"
+            id="filterkey"
+            onchange="this.form.submit();"
+            >
+            <option value="default" {% if not current_filterkey %}selected{% endif %}>Filter by</option>
+            <option value="name_asc" {% if current_filterkey == 'name_asc' %}selected{% endif %}>
+                Name (A-Z)
+            </option>
+            <option value="name_desc" {% if current_filterkey == 'name_desc' %}selected{% endif %}>
+                Name (Z-A)
+            </option>
+            <option value="number_asc" {% if current_filterkey == 'number_asc' %}selected{% endif %}>
+                Number of Books (Least)
+            </option>
+            <option value="number_desc" {% if current_filterkey == 'number_desc' %}selected{% endif %}>
+                Number of Books (Most)
+            </option>
+            </select>
+        </form>
+    </div>
+  </div>
+
+  {% for genre in page_obj %}
+    <div>
+        <a href="{% url 'mygenres:mygenre-detail' genre.pk %}">
+            <h3>{{ genre }}</h3>
+        </a>
+    </div>
+    {% empty %}
+    <p>No genres found.</p>
+    {% endfor %}
+  
+</section>
+
+<!-- Pagination -->
+<div class="pagination d-flex flex-row justify-content-center">
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+    <a class="links" href="?page=1">&laquo; first</a>
+    <a class="links" href="?page={{ page_obj.previous_page_number }}">previous</a>
+    {% endif %}
+
+    <span class="current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+    <a class="links" href="?page={{ page_obj.next_page_number }}">next</a>
+    <a class="links" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+  </span>
+</div>
+{% endblock %}

@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+<!-- Load static -->
+{% load static %}
+
+<!-- Page title -->
+{% block title %}
+{% if user == profile.user %}
+    My Profile
+    {% else %}
+    {{ profile.user }}'s Profile
+    {% endif %}
+{% endblock title %}
+
+<!-- Page content -->
+{% block content %}
+
+<!-- Profile -->
+<section class="container">
+    <h1 class="text-center">
+        {% if user == profile.user %}
+        My Profile
+        {% else %}
+        {{ profile.user }}'s Profile
+        {% endif %}
+    </h1>
+    <div class="col-12 col-md-10 d-flex flex-row flex-wrap mx-auto">
+        <div class="col-12 col-md-8 px-3">
+            <div class="d-flex flex-col book-shadow">
+                {% if profile.profile_pic %}
+                <img class="img-fluid profile-pic" src="{{ profile.profile_pic.url }}" alt="{{ profile.user }}">
+                {% else %}
+                <img class="img-fluid profile-pic" src="{% static 'images/user.png' %}" alt="{{ profile.user }}">
+                {% endif %}
+            </div>
+            <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <th>Username:</th>
+                    <td>{{ profile.user }}</td>
+                </tr>
+                <tr>
+                    <th>First Name:</th>
+                    <td>
+                        {% if profile.first_name == '' %}
+                        <i>Not set</i>
+                        {% else %}
+                        {{ profile.first_name }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Last Name:</th>
+                    <td>
+                        {% if profile.last_name == '' %}
+                        <i>Not set</i>
+                        {% else %}
+                        {{ profile.last_name }}
+                        {% endif %}
+                    </td>   
+                </tr>
+                <tr>
+                    <th>Joined:</th>
+                    <td>{{ profile.joined_on|date:"d M Y" }}</td>
+                </tr>
+            </table>                
+            </div>
+
+            <div>
+                <h3>
+                    About
+                    {% if user == profile.user %}
+                    Me
+                    {% else %}
+                    {{ profile.user }}
+                    {% endif %}
+                </h3>
+                {% if profile.about_me %}
+                <p>{{ profile.about_me }}</p>
+                {% else %}
+                <p><i>Not set</i></p>
+                {% endif %}
+            </div>
+            {% if user == profile.user %}
+            <a class="btns" href="{% url 'profiles:edit-profile' %}"><i class="fa-solid fa-user-pen"></i> Edit Profile</a>
+            {% endif %}
+        </div>
+        <div class="col-12 col-md-4 px-3">
+            {% if user == profile.user %}
+            <div class="mb-2">
+                <h2>Privacy</h2>
+                {% if profile.private %}
+                <p class="mt-4">Your profile is private</p>
+                <a class="btns" href="{% url 'profiles:toggle-profile-private' profile.pk %}"><i class="fa-solid fa-eye"></i> Make Public</a>
+                {% else %}
+                <p class="mt-4">Your profile is public</p>
+                <a class="btns" href="{% url 'profiles:toggle-profile-private' profile.pk %}"><i class="fa-solid fa-eye-slash"></i> Make Private</a>
+                {% endif %}                
+            </div>
+            <div class="mb-2">
+                <h2>Loan Requests</h2>
+                <a class="links" href="{% url 'sharing:request-list' %}"><i class="fa-solid fa-envelope"></i> Requests</a>
+            </div>
+            <div class="mb-2">
+                <h2>Friends</h2>
+                <a class="links" href="{% url 'profiles:friend-list' %}"><i class="fa-solid fa-user-plus"></i> Requests</a>
+            </div>
+            {% else %}
+            <div class="mb-2">
+                {% if friend_request.accepted %}
+                    <p>You are friends with {{ profile.user }}</p>
+                    <a class="btns" href="{% url 'profiles:unfriend' shelf_owner.pk %}"><i class="fa-solid fa-user-minus"></i> Remove Friend</a>
+                {% elif friend_request.request_sent %}
+                    <p>You have sent a friend request to {{ shelf_owner }}</p>
+                {% else %}
+                    <p>You are not friends with {{ profile.user }}</p>
+                    <a class="btns" href="{% url 'profiles:send-friend-request' shelf_owner.pk %}"><i class="fa-solid fa-user-plus"></i> Send Friend Request</a>
+                {% endif %}
+            </div>
+            {% endif %}
+            <div class="d-flex flex-column">
+                <a href="{% url 'shelf:myshelf' profile.user.id %}" class="links">
+                    View 
+                    {% if user == profile.user %}
+                    My
+                    {% else %}
+                    {{ profile.user }}'s
+                    {% endif %}
+                    Shelf
+                </a>
+                <a href="{% url 'wanted:wanted' profile.user.id %}" class="links">
+                    View 
+                    {% if user == profile.user %}
+                    My
+                    {% else %}
+                    {{ profile.user }}'s
+                    {% endif %}
+                    Wanted Books
+                </a>
+            </div>
+            <div class="book-shadow d-flex flex-column">
+            <h2 class="text-center"><i class="fa-solid fa-user-group"></i> Friends</h2>
+                {% for friend in friends %}
+                <p>
+                    <a class="links" href="">{{ friend }}</a>
+                </p>
+                {% empty %}
+                <p>
+                    <i>No friends yet</i>
+                </p>
+                {% endfor %}
+                <a href="#" class="links">View All Friends</a> <!-- Link to list of friends --> <!-- Also want a way to send a friend request -->
+                {% if user == profile.user %}
+                <a href="#" class="links">Find Friends</a> <!-- Link to list of friends --> <!-- Also want a way to send a friend request -->
+                {% else %}
+                <a href="#" class="links">Send {{profile.user}} A Friend Request</a>
+                {% endif %}
+            <!-- Short list of user's friends??? By most recently added? -->
+            <!-- Link to list of friends -->
+            <!-- Also want a way to send a friend request -->                
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+<!-- Title -->
+{% block title %}Books{% endblock %}
+
+<!-- Page content -->
+{% block content %}
+
+<!-- Quick Links-->
+<div class="container">
+  <h1 class="text-center">Books</h1>
+  <div class="d-flex flex-row justify-content-evenly align-items-center book-shadow">
+    <a class="links" href="{% url 'home:index' %}"><i class="fa-solid fa-arrow-left"></i>
+      Home
+    </a>
+    <a class="links" href="{% url 'books:author-list' %}"><i class="fa-solid fa-user-pen"></i> Authors </a>
+    <a class="links" href="{% url 'books:genre-list' %}"><i class="fa-solid fa-bookmark"></i> Genres </a>
+    {% if user.is_authenticated %}
+    <a class="btns" href="{% url 'books:add-book' %}"><i class="fa-solid fa-plus"></i> Add Book</a>
+    {% endif %}
+
+    <form method="GET" action="{% url 'books:book-list' %}" class="d-flex flex-row">
+      <input class="form-control" type="text" name="search" placeholder="Search by title, author or genre">
+      <button class="btns" type="submit">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Book list -->
+<section class="container col-12">
+  <div class="col-12">
+    <h2 class="text-center">Book List</h2>
+    <p>Number of books: {{ book_count }}</p>
+  </div>
+  <!-- Filtering -->
+  <div class="sorter d-flex flex-row justify-content-end">
+    <form method="GET" action="{% url 'books:book-list' %}">
+      <select class="form-select" name="filterkey" id="filterkey" onchange="this.form.submit();">
+        <option value="default" {% if not current_filterkey %}selected{% endif %}>Sort by...</option>
+        <option value="title_asc" {% if current_filterkey == 'title_asc' %}selected{% endif %}>
+          Title (A-Z)
+        </option>
+        <option value="title_desc" {% if current_filterkey == 'title_desc' %}selected{% endif %}>
+          Title (Z-A)
+        </option>
+        <option value="author_asc" {% if current_filterkey == 'author_asc' %}selected{% endif %}>
+          Author Name (A-Z)
+        </option>
+        <option value="author_desc" {% if current_filterkey == 'author_desc' %}selected{% endif %}>
+          Author Name (Z-A)
+        </option>
+        <option value="genre_asc" {% if current_filterkey == 'genre_asc' %}selected{% endif %}>
+          Genre Name (A-Z)
+        </option>
+        <option value="genre_desc" {% if current_filterkey == 'genre_desc' %}selected{% endif %}>
+          Genre Name (Z-A)
+        </option>
+        <option value="popularity_asc" {% if current_filterkey == 'popularity_asc' %}selected{% endif %}>
+          Popularity (Low-High)
+        </option>
+        <option value="popularity_desc" {% if current_filterkey == 'popularity_desc' %}selected{% endif %}>
+          Popularity (High-Low)
+        </option>
+      </select>
+    </form>
+  </div>
+  <!-- The list -->
+  <div class="col-12 col-md-8 mx-auto">
+    {% if query_result %}
+    <div>
+      <p>{{ page_obj|length }} results for "{{ query_result }}":</p>
+    </div>
+    {% endif %}
+    {% for book in page_obj %}
+    <div>
+      <a href="{% url 'books:book-detail' book.id %}">
+        <h4>{{ book }}</h4>
+      </a>
+      {% if user.is_authenticated %}
+      <a class="btns" href="{% url 'mybooks:add-mybook' book_id=book.id %}"><i class="fa-solid fa-plus"></i> Add To My
+        Books</a>
+      {% endif %}
+    </div>
+    {% empty %}
+    <p>No books found.</p>
+    {% endfor %}
+  </div>
+</section>
+<!-- Pagination -->
+<div class="pagination d-flex flex-row justify-content-center">
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+    <a class="links" href="?page=1">&laquo; first</a>
+    <a class="links" href="?page={{ page_obj.previous_page_number }}">previous</a>
+    {% endif %}
+
+    <span class="current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </span>
+
+    {% if page_obj.has_next %}
+    <a class="links" href="?page={{ page_obj.next_page_number }}">next</a>
+    <a class="links" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+  </span>
+</div>
+
+{% endblock %}

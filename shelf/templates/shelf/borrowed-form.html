@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+<!-- load crispy -->
+{% load crispy_forms_tags %}
+
+<!-- Page title -->
+{% block title %}Add Borrowed Book{% endblock %}
+
+<!-- Page content -->
+{% block content %}
+
+<section class="container">
+  <h1>Add {{ object_name }} To Borrowed List</h1>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-6">{{ form.book|as_crispy_field }}</div>
+      <p>Can't find the book? Add it here:</p>
+      <div class="col-6">
+        <input
+          type="text"
+          name="new_book"
+          id="new_book"
+          class="form-control"
+          placeholder="Add Book"
+        />
+        <input
+          type="text"
+          name="author"
+          id="author"
+          class="form-control"
+          placeholder="Add Author"
+        />
+        <input
+          type="text"
+          name="genre"
+          id="genre"
+          class="form-control"
+          placeholder="Add Genre"
+        />
+      </div>
+      <div class="col-6">{{ form.borrowed_from_user|as_crispy_field }}</div>
+      <div class="col-6">{{ form.borrowed_from|as_crispy_field }}</div>
+      <div class="col-6">{{ form.borrowed_on|as_crispy_field }}</div>
+      <div class="col-6">{{ form.notes|as_crispy_field }}</div>
+      <div class="col-6">{{ form.private|as_crispy_field }}</div>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Book</button>
+  </form>
+</section>
+
+{% endblock%}

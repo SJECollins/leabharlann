@@ -1,0 +1,35 @@
+{% block content %}
+<!-- load crispy -->
+{% load crispy_forms_tags %}
+<!-- Update finished -->
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title">{{ modal_title }}</h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="modal"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form data-hx-post="{{ request.path }}">
+      {% csrf_token %}
+      <!-- If form-->
+      {% if form %} {% for field in form %}
+      <div>{{ field|as_crispy_field }}</div>
+      {{ field.errors }} {% endfor %}
+      <div>
+        {% else %}
+        <!-- If no form -->
+        <p>{{ modal_message }}</p>
+        {% endif %}
+        <button type="button" class="btns-cancel" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button type="submit" class="btns">{{ button_label }}</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

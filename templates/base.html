@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/17ece91ea9.js" crossorigin="anonymous"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <!-- Page title -->
+  <title>Mo Leabharlann | {% block title %} {% endblock title %}</title>
+</head>
+
+<body>
+  <!-- Include header with navbar -->
+  {% include 'nav/header.html' %}
+
+  <!-- Main content-->
+  <main class="mt-4">{% block content %} {% endblock content %}</main>
+
+  <!-- Messages -->
+  {% if messages %} {% for message in messages %}
+  <div class="alert {{ message.tags }} alert-dismissible fade show custom-alert" role="alert">
+    <div class="row">
+      <div class="col-10">{{ message }}</div>
+      <div class="col-2">
+        <button type="button" class="btn-close p-1" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+  {% endfor %} {% endif %}
+
+  <!-- Modal -->
+  <div class="modal fade" id="book-modal">
+    <div id="dialog" class="modal-dialog" data-hx-target="this"></div>
+  </div>
+
+  <!-- Include footer -->
+  {% include 'nav/footer.html' %}
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+  <!-- HTMX -->
+  <script src="https://unpkg.com/htmx.org@1.8.4"></script>
+  {% block extra_js %} {% endblock extra_js %}
+</body>
+
+</html>

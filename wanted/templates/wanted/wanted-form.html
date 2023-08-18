@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+<!-- load crispy -->
+{% load crispy_forms_tags %}
+
+<!-- Page title -->
+{% block title %}Add Wanted Book{% endblock %}
+
+<!-- Page content -->
+{% block content %}
+
+<section class="container">
+  <h1 class="text-center">Add {{ object_name }} To List</h1>
+  {{ form.non_field_errors }}
+  <form method="POST" enctype="multipart/form-data" class="d-flex flex-column">
+    {% csrf_token %}
+    <div class="col-12 col-lg-6 mx-auto">
+      <div class="col-12">{{ form.book|as_crispy_field }}</div>
+      {{ form.book.errors }}
+      <div class="accordion col-12 mb-2" id="accordionNewBook">
+        <div class="accordion-item">
+          <p class="accordion-header" id="headingOne">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseInputs"
+              aria-expanded="true"
+              aria-controls="collapseInputs"
+            >
+              Can't find the book? Add it here:
+            </button>
+          </p>
+          <div
+            id="collapseInputs"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingOne"
+            data-bs-parent="#accordionNewBook"
+          >
+            <div class="accordion-body">
+              {{ form.new_book|as_crispy_field }}
+              {{ form.new_book.errors }}
+              {{ form.author_first|as_crispy_field }}
+              {{ form.author_first.errors }}
+              {{ form.author_last|as_crispy_field }}
+              {{ form.author_last.errors }}
+              {{ form.genre|as_crispy_field }}
+              {{ form.genre.errors }}
+              {{ form.book_cover|as_crispy_field }}
+              {{ form.book_cover.errors }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">{{ form.notes|as_crispy_field }}</div>
+      {{ form.notes.errors }}
+      <div class="col-12">{{ form.private|as_crispy_field }}</div>
+      {{ form.private.errors }}
+    </div>
+    <button type="submit" class="btns mx-auto">Add Book</button>
+  </form>
+</section>
+
+{% endblock%}

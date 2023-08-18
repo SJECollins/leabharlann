@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+<!-- Page title -->
+{% block title %}
+{% if user == shelf_owner %}
+My
+{% else %}
+{{ shelf_owner}}'s 
+{% endif %}
+Wanted List
+{% endblock %}
+
+<!-- Page content -->
+{% block content %}
+<section class="container">
+  <div class="row">
+    {% if user == shelf_owner %}
+
+    <a class="links" href="{% url 'shelf:myshelf' user.pk %}"
+      ><i class="fa-solid fa-arrow-left"></i>
+      Back to My Shelf
+    </a>
+    {% else %}
+    <a class="links" href="{% url 'shelf:myshelf' shelf_owner.pk %}"
+      ><i class="fa-solid fa-arrow-left"></i>
+      Back to {{ shelf_owner}}'s Shelf
+    </a>
+    {% endif %}
+  </div>
+</section>
+<section class="container">
+  <h1 class="text-center">
+    {% if user == shelf_owner %}
+    My 
+    {% else %}
+    {{ shelf_owner}}'s 
+    {% endif %}
+    Wanted List
+  </h1>
+  {% if user == shelf_owner %}
+  <div class="d-flex flex-row justify-content-end">
+    <a class="btns" href="{% url 'wanted:add-wanted' %}"
+      ><i class="fa-solid fa-plus"></i>
+      Add A Book
+    </a>
+  </div>
+  {% endif %}
+  <div>
+    <p>Total Wanted: {{ wanted_count }}</p>
+  </div>
+  {% for book in wanted %}
+  <div>
+    
+    <h3>{{ book.book.title }}</h3>
+    <p>by {{book.book.author}}</p>
+    <div>
+      <!-- Shelf owner can remove from wanted or add the wanted book to their shelf-->
+      {% if user == shelf_owner %}
+      <a class="btns" href="{% url 'mybooks:add-mybook' book_id=book.pk %}">Add To My Shelf</a>
+      <a class="btns" href="{% url 'wanted:delete-wanted' book.pk %}">Remove From Wanted</a>
+      {% else %}
+      <!-- Viewer can add that book to their shelf -->
+      <a class="btns" href="{% url 'wanted:add-wanted' book.pk %}">Add To My Wanted</a>
+      {% endif %}
+    </div>
+  </div>
+  {% empty %}
+  <p>No books in this list yet.</p>
+  {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+<!-- Load static -->
+{% load static %}
+
+<!-- Page title -->
+{% block title %}{{ request_title }}{% endblock %}
+
+<!-- Page content -->
+{% block content %}
+<section class="container">
+    <h1 class="text-center">{{ request_title }}</h1>
+    <div class="d-flex flex-row justify-content-evenly book-shadow">
+        <a class="links" href="{% url 'shelf:myshelf' user.pk %}">My Shelf</a>
+        <a class="links" href="{% url 'sharing:loaned-list' %}">Loaned</a>
+        <a class="links" href="{% url 'sharing:borrowed-list' %}">Borrowed</a>
+    </div>
+</section>
+<section class="container">
+    <div>
+        <p>{{ request_title }} number: {{ requests_count }}</p>
+    </div>
+    <div class="sorter d-flex flex-row justify-content-end">
+        <form method="GET" action="{% url 'mybooks:mybooks' shelf_owner.pk % }">
+            <select class="form-select" name="filterkey" id="filterkey" onchange="this.form.submit();">
+                <option value="default" {% if not current_filterkey %}selected{% endif %}>Filter by</option>
+                <option value="received" {% if current_filterkey == 'received' %}selected{% endif %}>
+                    Received
+                </option>
+                <option value="sent" {% if current_filterkey == 'sent' %}selected{% endif %}>
+                    Sent
+                </option>
+                <option value="pending" {% if current_filterkey == 'pending' %}selected{% endif %}>
+                    Pending
+                </option>
+                <option value="accepted" {% if current_filterkey == 'accepted' %}selected{% endif %}>
+                    Accepted
+                </option>
+                <option value="rejected" {% if current_filterkey == 'rejected' %}selected{% endif %}>
+                    Rejected
+                </option>                              
+            </select>
+        </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>Sent By</th>
+                    <th>Sent From</th>
+                    <th>Sent On</th>
+                    <th>Request Status</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in page_obj %}
+                <tr>
+                    <td>{{ request.book.title }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        {% if request.loaner == user %}
+                        You
+                        {% else %}
+                        {{ request.loaner }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if request.borrower == user %}
+                        You
+                        {% else %}
+                        {{ request.borrower }}
+                        {% endif %}
+                    </td>
+                    <td>{{ request.date_requested|date:"d M Y" }}</td>
+                    <td>
+                        {% if not request.accepted and not request.rejected %}
+                        Pending                      
+                        {% elif request.accepted %}
+                        Accepted
+                        {% elif request.rejected %}
+                        Rejected
+                        {% endif %}
+
+                    </td>
+                    <td>
+                        <a class="links" href="#">View</a>
+                    </td>
+                </tr>
+                {% if request.loaner == user and not request.accepted and not request.rejected %}
+                <tr>
+                    <td>
+                        <a class="links" href="{% url 'sharing:request-accept' request.pk %}">Accept</a>       
+                    </td>
+                    <td>
+                        <a class="links" href="{% url 'sharing:request-reject' request.pk %}">Reject</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% if request.borrow == user and request.reject_reason %}
+                <tr>
+                    <td colspan="6">
+                        {{ request.reject_reason }}
+                    </td>
+                </tr>
+                {% endif %}
+                {% empty %}
+                <tr>
+                    <td colspan="6">No requests found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+<!-- Pagination -->
+<div class="pagination d-flex flex-row justify-content-center">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a class="links" href="?page=1">&laquo; first</a>
+        <a class="links" href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+        <a class="links" href="?page={{ page_obj.next_page_number }}">next</a>
+        <a class="links" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

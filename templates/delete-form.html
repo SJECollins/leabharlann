@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+<!-- Load crispy -->
+{% load crispy_forms_tags %}
+
+<!-- Page title -->
+{% block title %}Remove {{ object_name }}{% endblock title %}
+
+{% block content %}
+
+<section class="container">
+  <a class="btns" href="{{request.META.HTTP_REFERER}}"><i class="fa-solid fa-arrow-left"></i> Go back</a>
+  <div class="row">
+    <h1 class="text-center">Removing {{ object_name }}</h1>
+    <div class="col-8 mx-auto">
+      <form method="POST">
+        {% csrf_token %}
+        <p>Are you sure you want to remove {{object_name}}?</p>
+        <p>This cannot be undone.</p>
+        <button class="btns-cancel" type="submit">
+          <i class="fa-solid fa-trash-can"></i> Remove
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock content %}

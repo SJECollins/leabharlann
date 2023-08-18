@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Friends Requests{% endblock %}
+
+{% block content %}
+<section class="container">
+  <a class="btns" href="{{request.META.HTTP_REFERER}}"><i class="fa-solid fa-arrow-left"></i> Go back</a>
+{% for request in friend_requests %}
+<div>
+  <div>
+    <h5>Friend request from {{ request.from_user }}</h5>
+    <a href="{% url 'profiles:accept-friend-request' request.from_user.id %}" class="btns"><i class="fa-solid fa-user-plus"></i> Accept</a>
+    <a href="{% url 'profiles:reject-friend-request' request.from_user.id %}" class="btns-cancel"><i class="fa-solid fa-user-minus"></i> Reject</a>
+  </div>
+</div>
+<hr/>
+{% empty %}
+<p>No friend requests</p>
+{% endfor %}    
+</section>
+{% endblock %}

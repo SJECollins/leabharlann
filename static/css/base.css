@@ -1,0 +1,316 @@
+@import url("https://fonts.googleapis.com/css2?family=Lugrasimo&family=Signika+Negative&family=Ysabeau+Infant&display=swap");
+
+:root {
+  --site-gray: #4f6d7a;
+  --site-green: #084c61;
+  --site-light-green: #56a3a6;
+  --site-red: #881600;
+  --site-yellow: #e3b505;
+  --site-white: #e9eeee;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Ysaebau Infant", sans-serif;
+}
+
+body {
+  background-color: var(--site-white);
+}
+
+main {
+  min-height: 100vh;
+}
+
+section {
+  margin-bottom: 2rem;
+}
+
+h1 {
+  color: var(--site-green);
+  font-family: "Lugrasimo", sans-serif;
+}
+
+h2,
+h3,
+h4 {
+  font-family: "Signika Negative", sans-serif;
+}
+
+/* Nav Styling */
+
+.navbar {
+  color: var(--site-white);
+  background-color: var(--site-green);
+  box-shadow: 0 0 14px 0 var(--site-light-green);
+}
+
+.navbar a {
+  color: var(--site-white);
+}
+
+.navbar a:hover,
+.navbar a:active,
+.navbar a:focus {
+  color: var(--site-yellow);
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link.show {
+  color: var(--site-yellow);
+}
+
+.navbar-brand p {
+  margin-bottom: 0;
+  line-height: 50px;
+}
+
+.dropdown-menu {
+  background-color: var(--site-green);
+  border: none;
+  margin-right: 2px;
+}
+
+.dropdown-item:hover,
+.dropdown-item:active,
+.dropdown-item:focus {
+  background-color: var(--site-green);
+}
+
+/* Footer Styling */
+
+footer {
+  margin-top: 2rem;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  color: var(--site-white);
+  background-color: var(--site-green);
+}
+
+#hero-welcome {
+  background: url(../images/so-many-books.jpg) bottom/cover no-repeat;
+  margin: 2rem auto;
+  min-height: 40vh;
+  border-radius: 20px;
+  box-shadow: 0 0 14px var(--site-red);
+}
+
+#hero-text {
+  background-color: rgb(8, 76, 97, 0.6);
+  color: var(--site-white);
+  width: fit-content;
+  padding: 1rem;
+  margin: 0.5rem;
+  border-radius: 8px;
+  float: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+#hero-text h1 {
+  font-size: 2.5rem;
+  color: var(--site-white);
+}
+
+.allauth-page {
+  margin: 2rem auto;
+  width: 50%;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  box-shadow: 0 0 14px var(--site-light-green);
+  border-radius: 20px;
+}
+
+/* Links, Lists & Buttons */
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+a:hover {
+  color: #000;
+}
+
+.links {
+  font-family: "Signika Negative", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--site-green);
+  transition: 0.3s;
+}
+
+.links:hover,
+.links:active,
+.links:focus {
+  color: var(--site-light-green);
+}
+
+.btns {
+  display: inline-block;
+  font-family: "Signika Negative", sans-serif;
+  font-weight: 700;
+  color: var(--site-white);
+  background-color: var(--site-green);
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  transition: 0.3s;
+}
+
+.btns:hover,
+.btns:active,
+.btns:focus {
+  color: var(--site-gray);
+  background-color: var(--site-light-green);
+}
+
+.btns-cancel {
+  display: inline-block;
+  font-family: "Signika Negative", sans-serif;
+  font-weight: 700;
+  color: var(--site-white);
+  background-color: var(--site-red);
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  transition: 0.3s;
+}
+
+.btns-cancel:hover,
+.btns-cancel:active,
+.btns-cancel:focus {
+  color: var(--site-gray);
+  background-color: var(--site-light-green);
+}
+
+/* Border shadow */
+
+.book-shadow {
+  padding: 1rem;
+  margin: 1rem auto;
+  border-radius: 2px;
+  box-shadow: 0 0 4px var(--site-green);
+}
+
+/* Form Styling */
+
+.accordion-button:not(.collapsed) {
+  color: var(--site-gray);
+  background-color: white !important;
+}
+.accordion-button:focus {
+  border-color: var(--site-light-green) !important;
+  box-shadow: 0 0 0 0.25rem var(--site-light-green) !important;
+}
+
+input:focus,
+input:active,
+select:focus,
+select:active,
+textarea:focus,
+textarea:active {
+  border: var(--bs-border-width) solid var(--site-light-green) !important;
+  box-shadow: 0 0 0 0.25rem var(--site-light-green) !important;
+}
+
+.form-check-input:checked {
+  background-color: var(--site-green) !important;
+  border: var(--bs-border-width) solid var(--site-light-green) !important;
+  box-shadow: 0 0 0 0.25rem var(--site-light-green) !important;
+}
+
+.errorlist {
+  color: var(--site-red);
+  font-size: 0.75rem;
+  background-color: rgb(136, 22, 0, 0.2);
+  border-radius: 8px;
+  border: 1px solid var(--site-red);
+  padding: 0.5rem;
+  margin: 0.5rem auto;
+  width: clamp(300px, 30vw, 600px);
+  text-align: center;
+}
+
+.errorlist {
+  list-style-type: none;
+}
+
+/* Messages */
+.custom-alert {
+  font-size: 0.75rem;
+  min-width: 300px;
+  position: fixed;
+  top: 6em;
+  right: 1em;
+  z-index: 9999;
+  padding: 0.5em;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.error {
+  box-shadow: 0 0 8px var(--site-red);
+}
+
+.success {
+  box-shadow: 0 0 8px var(--site-light-green);
+}
+
+/* Images */
+
+.book-cover {
+  max-height: 160px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.profile-pic {
+  max-height: 120px;
+  width: auto;
+  margin: 0 auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+/* hr styling*/
+
+hr {
+  border: 1px solid var(--site-light-green);
+  margin: 1rem auto;
+}
+
+/* Sort wrapper */
+
+.sorter select {
+  font-size: 0.75rem;
+}
+
+/* .table {
+  margin: 1rem auto;
+  width: 90%;
+  border-radius: 8px;
+  box-shadow: 0 0 4px var(--site-gray);
+  overflow: hidden;
+} */
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+  border-color: var(--site-light-green) !important;
+}
+
+.table > :not(caption) > * > * {
+  background-color: var(--site-white) !important;
+}

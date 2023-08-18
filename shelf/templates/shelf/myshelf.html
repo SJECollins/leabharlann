@@ -1,0 +1,111 @@
+{% extends "base.html" %} {% load static %}
+
+<!-- Page title-->
+{% block title %}My Shelf{% endblock %}
+
+<!-- Page Content-->
+{% block content %}
+
+<section class="container">
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1>My Shelf</h1>
+    </div>
+  </div>
+</section>
+<section class="container">
+  <div class="col-12">
+    <div class="d-flex flex-row justify-content-evenly book-shadow">
+      <a class="links" href="{% url 'mybooks:mybooks' pk=shelf_owner.pk %}">My Books</a>
+      <a class="links" href="{% url 'myauthors:myauthors' pk=shelf_owner.pk %}">My Authors</a>
+      <a class="links" href="{% url 'mygenres:mygenres' pk=shelf_owner.pk %}">My Genres</a>
+      {% if user == shelf_owner %}
+      <a class="links" href="{% url 'sharing:loaned-list' %}">Loaned</a>
+      <a class="links" href="{% url 'sharing:borrowed-list' %}">Borrowed</a>
+      {% endif %}
+    </div>
+    {% if user == shelf_owner %}
+    <div class="d-flex justify-content-evenly align-items-center my-5">
+      <h2 class="mb-0">Add A Book To Your Shelf:</h2>
+      <a class="btns" href="{% url 'mybooks:add-mybook' %}">Add Book</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+<hr/>
+<section class="container">
+  <div class="row d-flex flex-row flex-wrap">
+    <div class="col-12 col-md-4">
+      <h3><i class="fa-solid fa-book-open-reader"></i> Currently Reading:</h3>
+      <hr/>
+      <div>
+        {% for current in currently_reading %}
+        <div>
+          <a href="{% url 'mybooks:mybook-detail' pk=current.pk %}">
+            <h4>{{ current }}</h4>
+            <p>by {{ current.book.author }}</p>
+            <p>Started on: {{ current.started_reading_on }}</p>
+            <p class="links">View</p>
+          </a>
+        </div>
+        <hr/>
+        {% empty %} {% if user == shelf_owner %}
+        <p>You're not currently reading anything.</p>
+        {% else %}
+        <p>{{ shelf_owner }} isn't currently reading anything.</p>
+        {% endif %} {% endfor %}
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <h3><i class="fa-solid fa-eye"></i> Wanted:</h3>
+      <hr/>
+      <div>
+        {% for wanted in wanted %}
+        <div>
+          <a href="{% url 'books:book-detail' pk=wanted.book.pk %}">
+            <h4>{{ wanted }}</h4>
+            <p>by {{ wanted.book.author }}</p>
+            <p class="links">View</p>
+          </a>
+        </div>
+        <hr/>
+        {% empty %} {% if user == shelf_owner %}
+        <p>You don't have any books on your wanted list.</p>
+        {% else %}
+        <p>{{ shelf_owner }} doesn't have any books on their wanted list.</p>
+        {% endif %} {% endfor %}
+      </div>
+      <a class="links" href="{% url 'wanted:wanted' pk=shelf_owner.pk %}">View all wanted</a>
+      {% if user == shelf_owner %}
+      <p class="mt-3">
+        <a class="btns" href="{% url 'wanted:add-wanted' %}">Add A Book</a>
+      </p>
+      {% endif %}
+      <p>Total wanted: {{wanted_count}}</p>
+    </div>
+    <div class="col-12 col-md-4">
+      <h3><i class="fa-solid fa-check"></i> Recently Finished:</h3>
+      <hr/>
+      <div>
+        {% for finished in recently_finished %}
+        <div>
+          <a href="{% url 'mybooks:mybook-detail' pk=finished.pk %}">
+            <h4>{{ finished }}</h4>
+            <p>by {{ finished.book.author }}</p>
+            <p>Finished on: {{ finished.finished_reading_on }}</p>
+            <p class="links">View</p>
+          </a>
+        </div>
+        <hr/>
+        {% empty %} {% if user == shelf_owner %}
+        <p>You haven't finished any books yet.</p>
+        {% else %}
+        <p>{{ shelf_owner }} hasn't finished any books yet.</p>
+        {% endif %} {% endfor %}
+      </div>
+      <p>Total finished: {{finished_count}}</p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

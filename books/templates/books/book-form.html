@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+<!-- load static -->
+{% load static %}
+
+<!-- load crispy form tags -->
+{% load crispy_forms_tags %}
+
+<!-- Page title-->
+{% block title %}Add Book{% endblock title %} {% block content %}
+<section class="container">
+  <h1 class="text-center">Add A Book</h1>
+  {{ form.non_field_errors }}
+  <!-- Form -->
+  <form method="POST" enctype="multipart/form-data" class="d-flex flex-column">
+    {% csrf_token %}
+
+    <div class="col-12 col-lg-6 mx-auto">
+      <div class="col-12">{{ form.title|as_crispy_field }}</div>
+      {{ form.title.errors }}
+
+      <div class="col-12">{{ form.author|as_crispy_field }}</div>
+      {{ form.author.errors}}
+      <!-- Add a new author -->
+      <div class="accordion col-12 mb-2" id="accordionNewBook">
+        <div class="accordion-item">
+          <p class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInputs"
+              aria-expanded="true" aria-controls="collapseInputs">
+              Can't find the author? Add them here:
+            </button>
+          </p>
+          <div id="collapseInputs" class="accordion-collapse collapse" aria-labelledby="headingOne"
+            data-bs-parent="#accordionNewBook">
+            <div class="accordion-body">
+              {{ form.author_first|as_crispy_field }}
+              {{ form.author_first.errors }}
+              {{ form.author_last|as_crispy_field }}
+              {{ form.author_last.errors }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">{{ form.genre|as_crispy_field }}</div>
+      {{ form.genre.errors }}
+      <!-- Add a new genre -->
+      <div class="accordion col-12 mb-2" id="accordionNewBook">
+        <div class="accordion-item">
+          <p class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInputs"
+              aria-expanded="true" aria-controls="collapseInputs">
+              Can't find the genre? Add it here:
+            </button>
+          </p>
+          <div id="collapseInputs" class="accordion-collapse collapse" aria-labelledby="headingOne"
+            data-bs-parent="#accordionNewBook">
+            <div class="accordion-body">
+              {{ form.new_genre|as_crispy_field }}
+              {{ form.new_genre.errors }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">{{ form.book_cover|as_crispy_field }}</div>
+      {{ form.book_cover.errors }}
+    </div>
+    <button type="submit" class="btns mx-auto">Add Book</button>
+  </form>
+</section>
+
+{% endblock %}
