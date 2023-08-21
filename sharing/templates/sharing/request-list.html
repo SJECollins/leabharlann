@@ -9,19 +9,13 @@
 <!-- Page content -->
 {% block content %}
 <section class="container">
+  <a class="btns" href="{% url 'profiles:profile-detail' user.pk %}"><i class="fa-solid fa-arrow-left"></i> Go back</a>
     <h1 class="text-center">{{ request_title }}</h1>
-    <div class="d-flex flex-row justify-content-evenly book-shadow">
-        <a class="links" href="{% url 'shelf:myshelf' user.pk %}">My Shelf</a>
-        <a class="links" href="{% url 'sharing:loaned-list' %}">Loaned</a>
-        <a class="links" href="{% url 'sharing:borrowed-list' %}">Borrowed</a>
-    </div>
-</section>
-<section class="container">
     <div>
         <p>{{ request_title }} number: {{ requests_count }}</p>
     </div>
     <div class="sorter d-flex flex-row justify-content-end">
-        <form method="GET" action="{% url 'mybooks:mybooks' shelf_owner.pk % }">
+        <form method="GET" action="{% url 'sharing:request-list' %}">
             <select class="form-select" name="filterkey" id="filterkey" onchange="this.form.submit();">
                 <option value="default" {% if not current_filterkey %}selected{% endif %}>Filter by</option>
                 <option value="received" {% if current_filterkey == 'received' %}selected{% endif %}>

@@ -71,12 +71,12 @@ def toggle_private(request, pk):
     return redirect("profiles:profile-detail", pk=profile.pk)
 
 
-def friend_list(request):
+def friend_list(request, pk):
     """
     View function for listing all friends.
     Returns the friends of the current user.
     """
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.get(user=pk)
     friends = profile.friends.all()
     context = {"friends": friends}
     return render(request, "profiles/friend-list.html", context)
@@ -103,9 +103,9 @@ def friend_requests(request):
     View function for listing all friend requests.
     Returns the friend requests of the current user.
     """
-    friend_requests = FriendRequest.objects.filter(to_user=request.user)
+    friend_requests = FriendRequest.objects.filter(to_user=request.user, accepted=False)
     context = {"friend_requests": friend_requests}
-    return render(request, "profiles/friend-requests.html", context)
+    return render(request, "profiles/friend-request-list.html", context)
 
 
 def accept_friend_request(request, pk):

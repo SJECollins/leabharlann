@@ -12,7 +12,7 @@ urlpatterns = [
         views.toggle_private,
         name="toggle-profile-private",
     ),
-    path("friend-list/", views.friend_list, name="friend-list"),
+    path("friend-list/<int:pk>/", views.friend_list, name="friend-list"),
     path(
         "send-friend-request/<int:pk>/",
         views.send_friend_request,

@@ -276,6 +276,7 @@ def request_received_list(request):
 
     context = {
         "request_title": request_title,
+        "request_url": "sharing:request-list",
         "current_filterkey": current_filterkey,
         "page_obj": page_obj,
         "requests_count": requests_count,

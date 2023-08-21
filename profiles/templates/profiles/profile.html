@@ -101,10 +101,6 @@
                 <h2>Loan Requests</h2>
                 <a class="links" href="{% url 'sharing:request-list' %}"><i class="fa-solid fa-envelope"></i> Requests</a>
             </div>
-            <div class="mb-2">
-                <h2>Friends</h2>
-                <a class="links" href="{% url 'profiles:friend-list' %}"><i class="fa-solid fa-user-plus"></i> Requests</a>
-            </div>
             {% else %}
             <div class="mb-2">
                 {% if friend_request.accepted %}
@@ -149,15 +145,10 @@
                     <i>No friends yet</i>
                 </p>
                 {% endfor %}
-                <a href="#" class="links">View All Friends</a> <!-- Link to list of friends --> <!-- Also want a way to send a friend request -->
+                <a href="{% url 'profiles:friend-list' profile.user.id %}" class="links">View All Friends</a> <!-- Link to list of friends --> <!-- Also want a way to send a friend request -->
                 {% if user == profile.user %}
-                <a href="#" class="links">Find Friends</a> <!-- Link to list of friends --> <!-- Also want a way to send a friend request -->
-                {% else %}
-                <a href="#" class="links">Send {{profile.user}} A Friend Request</a>
-                {% endif %}
-            <!-- Short list of user's friends??? By most recently added? -->
-            <!-- Link to list of friends -->
-            <!-- Also want a way to send a friend request -->                
+                <a href="{% url 'profiles:friend-request-list' %}" class="links">Friend Requests</a>
+                {% endif %}             
             </div>
         </div>
     </div>
