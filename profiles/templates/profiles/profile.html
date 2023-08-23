@@ -103,14 +103,14 @@
             </div>
             {% else %}
             <div class="mb-2">
-                {% if friend_request.accepted %}
+                {% if user in profile.friends.all %}
                     <p>You are friends with {{ profile.user }}</p>
-                    <a class="btns" href="{% url 'profiles:unfriend' shelf_owner.pk %}"><i class="fa-solid fa-user-minus"></i> Remove Friend</a>
-                {% elif friend_request.request_sent %}
-                    <p>You have sent a friend request to {{ shelf_owner }}</p>
+                    <a class="btns" href="{% url 'profiles:unfriend' profile.user.pk %}"><i class="fa-solid fa-user-minus"></i> Remove Friend</a>
+                {% elif friend_request.sent %}
+                    <p>You have sent a friend request to {{ profile.user }}</p>
                 {% else %}
                     <p>You are not friends with {{ profile.user }}</p>
-                    <a class="btns" href="{% url 'profiles:send-friend-request' shelf_owner.pk %}"><i class="fa-solid fa-user-plus"></i> Send Friend Request</a>
+                    <a class="btns" href="{% url 'profiles:send-friend-request' profile.user.pk %}"><i class="fa-solid fa-user-plus"></i> Send Friend Request</a>
                 {% endif %}
             </div>
             {% endif %}
@@ -138,7 +138,7 @@
             <h2 class="text-center"><i class="fa-solid fa-user-group"></i> Friends</h2>
                 {% for friend in friends %}
                 <p>
-                    <a class="links" href="">{{ friend }}</a>
+                    <a class="links" href="{% url 'profiles:profile-detail' friend.profile.pk %}">{{ friend }}</a>
                 </p>
                 {% empty %}
                 <p>

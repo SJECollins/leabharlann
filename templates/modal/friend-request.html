@@ -1,0 +1,27 @@
+{% block content %}
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Friend Request</h5>
+        <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+        ></button>
+    </div>
+    <div class="modal-body">
+        <p>{{ friend_request.from_user }} wants to be friends.</p>
+        <div class="d-flex flex-row justify-content-evenly">
+            <form data-hx-post="{% url 'profiles:reject-friend-request' pk=friend_request.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btns-cancel">Reject</button>
+            </form>
+            <form data-hx-post="{% url 'profiles:accept-friend-request' pk=friend_request.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btns">Accept</button>
+            </form>      
+        </div>
+    </div>    
+</div>
+
+{% endblock %}

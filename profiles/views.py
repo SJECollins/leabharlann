@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -108,16 +109,29 @@ def friend_requests(request):
     return render(request, "profiles/friend-request-list.html", context)
 
 
+def friend_request_detail(request, pk):
+    """
+    View function for displaying a single friend request.
+    Returns the friend request object with the primary key (pk) equal to the pk argument.
+    """
+    friend_request = FriendRequest.objects.get(pk=pk)
+    context = {"friend_request": friend_request}
+    return render(request, "modal/friend-request.html", context)
+
+
 def accept_friend_request(request, pk):
     """
     View function for accepting a friend request.
     Returns the profile object with the primary key (pk) equal to the pk argument.
     """
-    friend_request = FriendRequest.objects.get(pk=pk)
-    friend_request.accepted = True
-    friend_request.save()
-    messages.success(request, "Friend request accepted")
-    return redirect("profiles:profile-detail", pk=request.user.profile.pk)
+    if request.method == "POST":
+        friend_request = FriendRequest.objects.get(pk=pk)
+        friend_request.accepted = True
+        friend_request.save()
+        messages.success(request, "Friend request accepted")
+        return HttpResponse(status=204)
+    else:
+        messages.error(request, "Error accepting friend request")
 
 
 def reject_friend_request(request, pk):
@@ -125,10 +139,13 @@ def reject_friend_request(request, pk):
     View function for rejecting a friend request.
     Returns the profile object with the primary key (pk) equal to the pk argument.
     """
-    friend_request = FriendRequest.objects.get(pk=pk)
-    friend_request.delete()
-    messages.success(request, "Friend request rejected")
-    return redirect("profiles:profile-detail", pk=request.user.profile.pk)
+    if request.method == "POST":
+        friend_request = FriendRequest.objects.get(pk=pk)
+        friend_request.delete()
+        messages.success(request, "Friend request rejected")
+        return HttpResponse(status=204)
+    else:
+        messages.error(request, "Error rejecting friend request")
 
 
 def unfriend(request, pk):

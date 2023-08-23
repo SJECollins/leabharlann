@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}Friends Requests{% endblock %}
 
 {% block content %}
@@ -8,9 +10,12 @@
 {% for request in friend_requests %}
 <div>
   <div>
-    <h5>Friend request from {{ request.from_user }}</h5>
-    <a href="{% url 'profiles:accept-friend-request' request.from_user.id %}" class="btns"><i class="fa-solid fa-user-plus"></i> Accept</a>
-    <a href="{% url 'profiles:reject-friend-request' request.from_user.id %}" class="btns-cancel"><i class="fa-solid fa-user-minus"></i> Reject</a>
+    <a class="links"
+      href="{% url 'profiles:profile-detail' request.from_user.id %}">{{ request.from_user }}</a>
+    wants to be friends.
+    <a class="btns"
+    data-hx-get="{% url 'profiles:friend-request-detail' pk=request.pk %}"
+    data-hx-target="#dialog">View</a>
   </div>
 </div>
 <hr/>
@@ -18,4 +23,8 @@
 <p>No friend requests</p>
 {% endfor %}    
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/modal.js' %}"></script>
 {% endblock %}

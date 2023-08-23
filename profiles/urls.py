@@ -14,6 +14,11 @@ urlpatterns = [
     ),
     path("friend-list/<int:pk>/", views.friend_list, name="friend-list"),
     path(
+        "friend-request-detail/<int:pk>/",
+        views.friend_request_detail,
+        name="friend-request-detail",
+    ),
+    path(
         "send-friend-request/<int:pk>/",
         views.send_friend_request,
         name="send-friend-request",

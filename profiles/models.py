@@ -78,13 +78,6 @@ class FriendRequest(models.Model):
         return f"{self.from_user} to {self.to_user}"
 
     def save(self, *args, **kwargs):
-        """
-        Override the save method of the FriendRequest model to prevent duplicate requests.
-        """
-        if FriendRequest.objects.filter(
-            from_user=self.from_user, to_user=self.to_user
-        ).exists():
-            raise ValueError("You have already sent a friend request to this user")
         if self.accepted:
             self.from_user.profile.friends.add(self.to_user)
             self.to_user.profile.friends.add(self.from_user)
