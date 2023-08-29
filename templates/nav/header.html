@@ -21,13 +21,13 @@
             </li>
             {% endif %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'books:book-list' %}"><i class="fa-solid fa-book"></i> Books</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'books:author-list' %}"><i class="fa-solid fa-user-pen"></i> Authors</a>
+              <a class="nav-link" href="{% url 'home:about' %}"><i class="fa-solid fa-circle-info"></i> About</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'home:faqs' %}"><i class="fa-solid fa-question"></i> FAQs</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home:contact' %}"><i class="fa-solid fa-envelope-open-text"></i> Contact</a>
             </li>
             {% if user.is_authenticated %}
             <li class="nav-item dropdown">
