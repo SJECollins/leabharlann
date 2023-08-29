@@ -2,35 +2,38 @@
 
 <header>
   <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid d-flex justify-content-between mx-4">
-      <a class="navbar-brand d-flex" href="{% url 'home:index' %}">
-        <img src="{% static 'images/logo.png' %}" alt="Mo Leabharlann" width="50" height="50">
-        <p>Mo Leabharlann</p>
-      </a>
-      <div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+    <div class="container-fluid d-flex justify-content-between">
+      <div class="container-fluid d-flex justify-content-between mx-4">
+        <a class="navbar-brand d-flex" href="{% url 'home:index' %}">
+          <img src="{% static 'images/logo.png' %}" alt="Mo Leabharlann" width="50" height="50">
+          <p>Mo Leabharlann</p>
+        </a>
+        <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
           aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+          <i class="fa-solid fa-bars"></i>
+        </button>        
+      </div>
+      <div class="container"></div>
+      <div class="container">
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             {% if user.is_authenticated %}
-            <li class="nav-item">
+            <li class="nav-item text-nowrap">
               <a class="nav-link" aria-current="page" href="{% url 'shelf:myshelf' user.pk %}"><i
                   class="fa-solid fa-book"></i> My Shelf</a>
             </li>
             {% endif %}
-            <li class="nav-item">
+            <li class="nav-item text-nowrap">
               <a class="nav-link" href="{% url 'home:about' %}"><i class="fa-solid fa-circle-info"></i> About</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item text-nowrap">
               <a class="nav-link" href="{% url 'home:faqs' %}"><i class="fa-solid fa-question"></i> FAQs</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item text-nowrap">
               <a class="nav-link" href="{% url 'home:contact' %}"><i class="fa-solid fa-envelope-open-text"></i> Contact</a>
             </li>
             {% if user.is_authenticated %}
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown text-nowrap">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <i class="fa-solid fa-user"></i>

@@ -10,10 +10,20 @@
 {% block content %}
 
 <section class="container">
-  <div class="row">
-    <div class="col-12 text-center">
+  <div class="text-center">
       <h1>About Mo Leabharlann</h1>
-    </div>
+      <div class="col-12 col-md-8 mx-auto text-start book-shadow">
+      <p>Register an account to start building your personalized bookshelf. Curate your library,
+        track your current reads, and stay organized.</p>
+      <p>Once you're registered, you have the power to search for books and add them to your shelf. You can either choose from
+        the existing collection or add new books yourself.</p>
+      <p>Your bookshelf goes beyond mere storage – it's your hub for managing wanted, loaned, and borrowed books.</p>
+      <p>Want to share the reading experience? Add friends to your network and compare reading habits!</p>
+      <p>Start your literary journey today.</p>
+      <div class="text-center">
+        <a class="btns" href="{% url 'account_signup' %}">Sign Up Now!</a>  
+      </div>
+      </div>
   </div>
 </section>
 
