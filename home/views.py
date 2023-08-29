@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from books.models import Book, Author, Genre
 from mybooks.models import MyBook
+from .models import ContactMessage
 
 
 def index(request):
@@ -37,6 +38,17 @@ def contact(request):
     """
     A view to return the contact page
     """
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+        subject = request.POST.get("subject")
+        message = request.POST.get("message")
+
+        ContactMessage.objects.create(
+            name=name, email=email, subject=subject, message=message
+        )
+        return render(request, "home/contact.html", {"success": True})
+
     return render(request, "home/contact.html")
 
 
