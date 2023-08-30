@@ -1,15 +1,50 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}Friend List{% endblock %}
 
 {% block content %}
 
 <section class="container">
-    <a class="btns" href="{{request.META.HTTP_REFERER}}"><i class="fa-solid fa-arrow-left"></i> Go back</a>
+    <div class="d-flex flex-row justify-content-evenly align-items-center book-shadow">
+        <a class="btns" href="{{request.META.HTTP_REFERER}}"><i class="fa-solid fa-arrow-left"></i> Go back</a>
+        <a class="btns" href="{% url 'profiles:friend-request-list' %}">Friend Requests</a>        
+    </div>
+    <div>
+        <h2 class="text-center">Find Friends</h2>
+        <form method="GET" action="{% url 'profiles:friend-list' user.pk %}" class="d-flex flex-row">
+            <input class="form-control" type="text" name="search" placeholder="Search by username" />
+            <button class="btns" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+        <p>Have a friend who hasn't joined yet?</p>
+        <a class="btns"
+            data-hx-get="{% url 'profiles:invite' user.pk %}"
+            data-hx-target="#dialog">Invite A Friend</a>
+    </div>
+</section>
+{% if query %}
+<section>
+    <h2 class="text-center">Search Results</h2>
+    {% for result in results %}
+    <div>
+        <div>
+            <a class="links" href="{% url 'profiles:profile-detail' result.profile.id %}">{{ result }}</a>
+        </div>
+    </div>
+    <hr/>
+    {% empty %}
+    <p>No users found.</p>
+    {% endfor %}
+</section>
+{% endif %}
+<section class="container">
+    <h1 class="text-center">Friends List</h1>
+
     {% for friend in friends %}
     <div>
         <div>
-            <a class="links" href="{% url 'profiles:profile' friend.profile.id %}">{{ friend }}</a>
+            <a class="links" href="{% url 'profiles:profile-detail' friend.profile.id %}">{{ friend }}</a>
             <a href="{% url 'profiles:unfriend' friend.profile.id %}" class="btns-cancel"><i class="fa-solid fa-user-minus"></i> Remove Friend</a>
         </div>
     </div>
@@ -19,4 +54,8 @@
     {% endfor %}
 </section>
 
+{% endblock %}
+<!-- Modal JS-->
+{% block extra_js %}
+<script src="{% static 'js/modal.js' %}"></script>
 {% endblock %}

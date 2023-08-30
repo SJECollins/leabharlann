@@ -1,0 +1,10 @@
+Hello {{ name}}!
+
+{{ user }} has invited you to join Mo Leabharlann, the app for tracking your reading habits.
+
+Add books to your shelf, track your reading progress, wanted, loaned and borrowed books. And see what your friends are reading!
+
+You can find out more about Mo Leabharlann here: https://www.moleabharlann.ie.
+
+Thanks!
+Mo Leabharlann

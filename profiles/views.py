@@ -4,7 +4,9 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 
 from .models import Profile, FriendRequest
-from .forms import ProfileForm
+from .forms import ProfileForm, InviteForm
+
+from .invite_handler import handle_invite
 
 
 def profile_list(request):
@@ -77,10 +79,39 @@ def friend_list(request, pk):
     View function for listing all friends.
     Returns the friends of the current user.
     """
+    if request.GET:
+        query = request.GET.get("search")
+        if query:
+            results = User.objects.filter(username__icontains=query, private=False)
+            context = {
+                "results": results,
+                "query": query,
+            }
+            return render(request, "profiles/friend-list.html", context)
+
     profile = Profile.objects.get(user=pk)
     friends = profile.friends.all()
     context = {"friends": friends}
     return render(request, "profiles/friend-list.html", context)
+
+
+def invite_friend(request, pk):
+    """
+    View function for sending an email to invite a friend outside the site.
+    """
+
+    if request.method == "POST":
+        handle_invite(request, pk, request.POST.get("name"), request.POST.get("email"))
+        messages.success(request, "Invitation sent")
+        return HttpResponse(status=204)
+
+    form = InviteForm()
+    context = {
+        "form": form,
+        "modal_title": "Invite a friend",
+        "button_label": "Send invitation",
+    }
+    return render(request, "modal/modal-form.html", context)
 
 
 def send_friend_request(request, pk):
