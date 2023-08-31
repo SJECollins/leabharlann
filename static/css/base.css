@@ -95,7 +95,8 @@ footer {
 }
 
 #hero-welcome {
-  background: url(../images/so-many-books.jpg) bottom/cover no-repeat;
+  background: url(https://res.cloudinary.com/whatsit/image/upload/v1693513016/static/images/so-many-books.b16aaf7da7be.jpg)
+    bottom/cover no-repeat;
   margin: 2rem auto;
   min-height: 40vh;
   border-radius: 20px;
