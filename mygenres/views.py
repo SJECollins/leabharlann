@@ -64,13 +64,13 @@ def my_genres(request, pk=None):
     return render(request, "mygenres/mygenre-list.html", context)
 
 
-def mygenre_detail(request, pk, shelf_owner_id=None):
+def mygenre_detail(request, pk, user_id=None):
     """
     View function for displaying a single genre.
     """
     mygenre = MyGenre.objects.get(pk=pk)
-    my_books = MyBook.objects.filter(user=shelf_owner_id, book__genre=mygenre.genre)
-    context = {"mygenre": mygenre, "my_books": my_books}
+    mybooks = MyBook.objects.filter(user=user_id, book__genre=mygenre.genre.id)
+    context = {"mygenre": mygenre, "mybooks": mybooks}
     return render(request, "mygenres/mygenre.html", context)
 
 

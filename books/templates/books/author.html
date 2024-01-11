@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ author.name }}
+{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="d-flex flex-row justify-content-evenly book-shadow">
+        <a class="links" href="{% url 'books:author-list' %}">
+            <i class="fa-solid fa-user-pencil"></i>
+            Back To Authors
+        </a>
+        <a class="links" href="{% url 'books:book-list' %}">
+            <i class="fa-solid fa-book"></i>
+            Books
+        </a>
+        <a class="links" href="{% url 'books:genre-list' %}">
+            <i class="fa-solid fa-bookmark"></i>
+            Genres
+        </a>
+    </div>
+</section>
+<section class="container">
+    <div class="row">
+        <div class="col-8 mx-auto">
+            <h1 class="text-center">{{ author.name }}</h1>
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <h2>Shelves</h2>
+                    <p>On {{author.number_shelves}} {% if author.number_shelves > 1 %}shelves{% else %}shelf{% endif %}.
+                    </p>
+                    <h2>Reads</h2>
+                    <p>Read {{ author.number_reads }} time {% if author.number_reads > 1 %}s{% endif %}.</p>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <h2>Books By {{author}}</h2>
+                    <ul>
+                        {% for book in author.books.all %}
+                        <li><a class="links" href="{% url 'books:book-detail' book.id %}">{{ book.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% if user.is_authenticated %}
+<section class="container">
+    <h2>Your Shelf</h2>
+    {% if has_author %}
+    <p>You have this author on your shelf.</p>
+    <a class="btns" href="{% url 'myauthors:myauthor-detail' pk=has_author.id user_id=user.id %}">
+        View</a>
+    {% else %}
+    <p>You don't have this author on your shelf.</p>
+    <a class="btns" href="{% url 'myauthors:add-myauthor' author.id %}">
+        Add To Shelf</a>
+    {% endif %}
+    <a class="links" href="{ url 'shelf:myshelf' user.pk %}">
+        Go To Your Shelf</a>
+</section>
+
+{% endblock %}
+```

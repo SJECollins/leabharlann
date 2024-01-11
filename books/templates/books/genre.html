@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+{{ genre.name }}
+
+{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="d-flex flex-row justify-content-evenly book-shadow">
+        <a class="links" href="{% url 'books:genre-list' %}">
+            <i class="fa-solid fa-bookmark"></i>
+            Back To Genres
+        </a>
+        <a class="links" href="{% url 'books:book-list' %}">
+            <i class="fa-solid fa-book"></i>
+            Books
+        </a>
+        <a class="links" href="{% url 'books:author-list' %}">
+            <i class="fa-solid fa-user-pencil"></i>
+            Authors
+        </a>
+    </div>
+</section>
+<section class="container">
+    <div class="row">
+        <div class="col-8 mx-auto">
+            <h1 class="text-center">{{ genre.name }}</h1>
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <h2>Shelves</h2>
+                    <p>On {{genre.number_shelves}} {% if genre.number_shelves > 1 %}shelves{% else %}shelf{% endif %}.
+                    </p>
+                    <h2>Reads</h2>
+                    <p>Read {{ genre.number_reads }} time {% if genre.number_reads > 1 %}s{% endif %}.</p>
+                </div>
+                <div class="col-12 col-lg-6">
+                    <h2>Books In {{genre}}</h2>
+                    <ul>
+                        {% for book in genre.books.all %}
+                        <li><a class="links" href="{% url 'books:book-detail' book.id %}">{{ book.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% if user.is_authenticated %}
+<section class="container">
+    <h2>Your Shelf</h2>
+    {% if has_genre %}
+    <p>You have this genre on your shelf.</p>
+    <a class="btns" href="{% url 'mygenres:mygenre-detail' has_genre.id %}">
+        View</a>
+    {% else %}
+    <p>You don't have this genre on your shelf.</p>
+    <a class="btns" href="{% url 'mygenres:add-mygenre' genre.id %}">
+        Add To Shelf</a>
+    {% endif %}
+    <a class="links" href="{ url 'shelf:myshelf' user.pk %}">
+        Go To Your Shelf</a>
+</section>
+{% endblock %}
+```

@@ -3,8 +3,10 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.urls import reverse
 from django.db.models import Q
+from myauthors.models import MyAuthor
 
 from mybooks.models import MyBook
+from mygenres.models import MyGenre
 
 from .models import Author, Book, Genre
 from .forms import AuthorForm, BookForm, GenreForm
@@ -71,7 +73,11 @@ def author_detail(request, pk):
     Returns the author object with the primary key (pk) equal to the pk argument.
     """
     author = Author.objects.get(pk=pk)
-    return render(request, "books/author.html", {"author": author})
+    if request.user.is_authenticated:
+        has_author = MyAuthor.objects.filter(user=request.user, author=author).first()
+    return render(
+        request, "books/author.html", {"author": author, "has_author": has_author}
+    )
 
 
 def add_author(request):
@@ -318,7 +324,9 @@ def genre_detail(request, pk):
     Returns the genre object with the primary key (pk) equal to the pk argument.
     """
     genre = Genre.objects.get(pk=pk)
-    return render(request, "books/genre.html", {"genre": genre})
+    if request.user.is_authenticated:
+        has_genre = MyGenre.objects.filter(user=request.user, genre=genre).first()
+    return render(request, "books/genre.html", {"genre": genre, "has_genre": has_genre})
 
 
 def add_genre(request):

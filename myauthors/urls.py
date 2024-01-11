@@ -5,7 +5,11 @@ from . import views
 app_name = "myauthors"
 urlpatterns = [
     path("myauthors/<int:pk>/", views.my_authors, name="myauthors"),
-    path("myauthor-detail/<int:pk>/", views.myauthor_detail, name="myauthor-detail"),
+    path(
+        "myauthor-detail/<int:pk>/<int:user_id>/",
+        views.myauthor_detail,
+        name="myauthor-detail",
+    ),
     path(
         "add-myauthor/",
         views.add_myauthor,

@@ -68,13 +68,13 @@ def my_authors(request, pk=None):
     return render(request, "myauthors/myauthor-list.html", context)
 
 
-def myauthor_detail(request, pk):
+def myauthor_detail(request, pk, user_id=None):
     """
     View function for displaying a single author.
     """
 
     myauthor = MyAuthor.objects.get(pk=pk)
-    mybooks = MyBook.objects.filter(user=pk, book__author=myauthor.author)
+    mybooks = MyBook.objects.filter(user=user_id, book__author=myauthor.author.id)
     context = {"myauthor": myauthor, "mybooks": mybooks}
     return render(request, "myauthors/myauthor.html", context)
 

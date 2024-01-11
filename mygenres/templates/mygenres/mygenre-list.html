@@ -76,7 +76,7 @@ List {% endblock %}
 
   {% for genre in page_obj %}
     <div>
-        <a href="{% url 'mygenres:mygenre-detail' genre.pk %}">
+        <a href="{% url 'mygenres:mygenre-detail' pk=genre.pk user_id=shelf_owner.id %}">
             <h3>{{ genre }}</h3>
         </a>
     </div>

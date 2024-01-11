@@ -28,22 +28,14 @@
     <div class="col-8 mx-auto">
       <h1 class="text-center">{{ book.title }}</h1>
       <div class="row">
-        <div class="col-6">
+        <div class="col-12 col-lg-6">
           {% if book.book_cover %}
-          <img
-            class="book-cover"
-            src="{{ book.book_cover.url }}"
-            alt="{{ book.title }}"
-          />
+          <img class="book-cover" src="{{ book.book_cover.url }}" alt="{{ book.title }}" />
           {% else %}
-          <img
-            class="book-cover"
-            src="{% static 'images/plain-cover.png' %}"
-            alt="{{ book.title }}"
-          />
+          <img class="book-cover" src="{% static 'images/plain-cover.png' %}" alt="{{ book.title }}" />
           {% endif %}
         </div>
-        <div class="col-6">
+        <div class="col-12 col-lg-6">
           <h2>Author</h2>
           <p>{{ book.author }}</p>
           <h2>Genre</h2>
@@ -65,14 +57,10 @@
   <h2>Your Shelf</h2>
   {% if has_book %}
   <p>You have this book on your shelf.</p>
-  <a class="links" href="{% url 'mybooks:mybook-detail' has_book.id %}"
-    >View your book</a
-  >
+  <a class="links" href="{% url 'mybooks:mybook-detail' has_book.id %}">View your book</a>
   {% else %}
   <p>You don't have this book on your shelf.</p>
-  <a class="btns" href="{% url 'mybooks:add-mybook' book_id=book.id %}"
-    >Add To Shelf</a
-  >
+  <a class="btns" href="{% url 'mybooks:add-mybook' book_id=book.id %}">Add To Shelf</a>
   {% endif %}
   <a class="links" href="{% url 'shelf:myshelf' user.pk %}">Go to your shelf</a>
 </section>

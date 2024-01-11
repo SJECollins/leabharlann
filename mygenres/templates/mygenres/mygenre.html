@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}
+
+{{ mygenre }}
+
+{% endblock %}
+
+{% block content %}
+<section class="container">
+    <div class="d-flex flex-row justify-content-evenly book-shadow">
+        {% if user == mygenre.user %}
+        <a class="links" href="{% url 'shelf:myshelf' user.pk %}"><i class="fa-solid fa-arrow-left"></i>
+            Back to My Shelf
+        </a>
+        <a class="links" href="{% url 'mygenres:edit-mygenre' mygenre.id %}"><i class="fa-solid fa-pencil"></i>
+            Edit MyGenre
+        </a>
+        <a class="links" href="{% url 'mygenres:delete-mygenre' mygenre.id %}"><i class="fa-solid fa-trash"></i>
+            Remove MyGenre
+        </a>
+        <a class="links" href="{% url 'mygenres:mygenres' user.pk %}">
+            <i class="fa-solid fa-user-bookmark"></i>
+            MyGenres
+        </a>
+        {% else %}
+        <a class="links" href="{% url 'shelf:shelf' pk=shelf_owner.pk %}"><i class="fa-solid fa-arrow-left"></i>
+            Back to {{ mygenre.user}}'s Shelf
+        </a>
+        <a class="links" href="{% url 'mygenres:mygenres' mygenre.user.pk %}">
+            <i class="fa-solid fa-user-bookmark"></i>
+            {{ mygenre.user}}'s MyAuthors
+        </a>
+        {% endif %}
+    </div>
+</section>
+<section class="container">
+    <div class="row">
+        <div class="col-8 mx-auto">
+            <h1 class="text-center">{{ mygenre }}</h1>
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    {% if mygenre.favourite %}
+                    <p>Is a favourite.</p>
+                    {% endif %}
+                    <p>Finished {{mygenre.number_of_books_read}} books by {{mygenre}}.</p>
+                    <p>Notes:</p>
+                    {% if mygenre.notes %}
+                    <p>{{ mygenre.notes }}</p>
+                    {% else %}
+                    <p>No notes yet.</p>
+                    {% endif %}
+                </div>
+                <div class="col-12 col-lg-6">
+                    <p>My Books in {{ mygenre }}:</p>
+                    <ul>
+                        {% for book in mybooks %}
+                        <li><a href="{% url 'mybooks:mybook-detail' book.id %}">{{ book }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+```
