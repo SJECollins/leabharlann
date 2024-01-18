@@ -6,136 +6,140 @@
 <!-- Page content-->
 {% block content %}
 <section class="container">
-        <div class="row">
-            <h1 class="text-center">{{ share_list }}</h1>
-            <div class="d-flex flex-row justify-content-evenly align-items-center book-shadow">
-                <a class="links" href="{% url 'shelf:myshelf' user.pk %}"><i class="fa-solid fa-arrow-left"></i> My Shelf</a>
-                {% if share_list == "Loaned" %}
-                <a class="links" href="{% url 'sharing:borrowed-list' %}"><i class="fa-solid fa-book"></i> Borrowed Books</a>
-                {% else %}
-                <a class="links" href="{% url 'sharing:loaned-list' %}"><i class="fa-solid fa-book"></i> Loaned Books</a>
-                {% endif %}
-                <a class="links" href="{% url 'sharing:request-list' %}">Requests <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
+    <div class="row">
+        <h1 class="text-center">{{ share_list }}</h1>
+        <div class="d-flex flex-column flex-sm-row justify-content-evenly align-items-center book-shadow">
+            <a class="links mb-2 mb-sm-0" href="{% url 'shelf:myshelf' user.pk %}"><i
+                    class="fa-solid fa-arrow-left"></i> My Shelf</a>
+            {% if share_list == "Loaned" %}
+            <a class="links mb-2 mb-sm-0" href="{% url 'sharing:borrowed-list' %}"><i class="fa-solid fa-book"></i>
+                Borrowed Books</a>
+            {% else %}
+            <a class="links mb-2 mb-sm-0" href="{% url 'sharing:loaned-list' %}"><i class="fa-solid fa-book"></i> Loaned
+                Books</a>
+            {% endif %}
+            <a class="links" href="{% url 'sharing:request-list' %}">Requests <i
+                    class="fa-solid fa-arrow-right"></i></a>
         </div>
-        <div>
-            <p>Currently {{ share_list}}: {{shared_count}}</p>
-            <p>Number Returned: {{ returned_count }}</p>
-            <p>Total: {{ total_count }}</p>            
-        </div>
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Book Title 
-                            {% if current_sort == "title_asc" %}
-                            <a class="links" href="?order_by=title&direction=desc">
-                                <i class="fa-solid fa-sort-up"></i>
-                            </a>
-                            {% elif current_sort == "title_desc" %}
-                            <a class="links" href="?order_by=title&direction=asc">
-                                <i class="fa-solid fa-sort-down"></i>
-                            </a>
-                            {% else %}
-                            <a class="links" href="?order_by=title&direction=asc">
-                                <i class="fa-solid fa-sort"></i>
-                            </a>
-                            {% endif %}
-                        </th>
-                        <th>Borrowed {% if share_list == "Loaned" %}By{% else %} From{% endif %}</th>
-                        <th>
-                            Borrowed On 
-                            {% if current_sort == "borrow_asc" %}
-                            <a class="links" href="?order_by=borrow&direction=desc">
-                                <i class="fa-solid fa-sort-up"></i>
-                            </a>
-                            {% elif current_sort == "borrow_desc" %}
-                            <a class="links" href="?order_by=borrow&direction=asc">
-                                <i class="fa-solid fa-sort-down"></i>
-                            </a>
-                            {% else %}
-                            <a class="links" href="?order_by=borrow&direction=asc">
-                                <i class="fa-solid fa-sort"></i>
-                            </a>
-                            {% endif %}
-                        </th>
-                        <th>Edit Details</th>
-                        <th>
-                            Returned 
-                            {% if current_sort == "returned_asc" %}
-                            <a class="links" href="?order_by=returned&direction=desc">
-                                <i class="fa-solid fa-sort-up"></i>
-                            </a>
-                            {% elif current_sort == "returned_desc" %}
-                            <a class="links" href="?order_by=returned&direction=asc">
-                                <i class="fa-solid fa-sort-down"></i>
-                            </a>
-                            {% else %}
-                            <a class="links" href="?order_by=returned&direction=asc">
-                                <i class="fa-solid fa-sort"></i>
-                            </a>
-                            {% endif %}
-                        </th>
-                        <th>
-                            Returned On 
-                            {% if current_sort == "return-date_asc" %}
-                            <a class="links" href="?order_by=return-date&direction=desc">
-                                <i class="fa-solid fa-sort-up"></i>
-                            </a>
-                            {% elif current_sort == "return-date_desc" %}
-                            <a class="links" href="?order_by=return-date&direction=asc">
-                                <i class="fa-solid fa-sort-down"></i>
-                            </a>
-                            {% else %}
-                            <a class="links" href="?order_by=return-date&direction=asc">
-                                <i class="fa-solid fa-sort"></i>
-                            </a>
-                            {% endif %}
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for share in shared_objects %}
-                    <tr>
-                        <td>{{ share.book.title }}</td>
-                        <td>
-                            {% if share_list == "Loaned" %}
-                                {% if share.borrower is not None %}
-                                {{ share.borrower }}
-                                {% else %}
-                                {{ share.borrower_alt }}
-                                {% endif %}
-                            {% else %}
-                            {{ share.loaner }}
-                            {% endif %}                       
-                        </td>
-                        <td>{{ share.date_shared }}</td>
-                        <td><a href="{% url 'sharing:share-update' share.id %}">Edit</a></td>
-                        <td>
-                            {% if share.returned %}
-                            Yes
-                            {% else %}
-                            No
-                            <a href="{% url 'sharing:share-return' share.id %}">Return</a>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if share.date_returned is None %}
-                            -
-                            {% else %}
-                            {{ share.date_returned }}
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="6">No books to display</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    </div>
+    <div>
+        <p>Currently {{ share_list}}: {{shared_count}}</p>
+        <p>Number Returned: {{ returned_count }}</p>
+        <p>Total: {{ total_count }}</p>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Book Title
+                        {% if current_sort == "title_asc" %}
+                        <a class="links" href="?order_by=title&direction=desc">
+                            <i class="fa-solid fa-sort-up"></i>
+                        </a>
+                        {% elif current_sort == "title_desc" %}
+                        <a class="links" href="?order_by=title&direction=asc">
+                            <i class="fa-solid fa-sort-down"></i>
+                        </a>
+                        {% else %}
+                        <a class="links" href="?order_by=title&direction=asc">
+                            <i class="fa-solid fa-sort"></i>
+                        </a>
+                        {% endif %}
+                    </th>
+                    <th>Borrowed {% if share_list == "Loaned" %}By{% else %} From{% endif %}</th>
+                    <th>
+                        Borrowed On
+                        {% if current_sort == "borrow_asc" %}
+                        <a class="links" href="?order_by=borrow&direction=desc">
+                            <i class="fa-solid fa-sort-up"></i>
+                        </a>
+                        {% elif current_sort == "borrow_desc" %}
+                        <a class="links" href="?order_by=borrow&direction=asc">
+                            <i class="fa-solid fa-sort-down"></i>
+                        </a>
+                        {% else %}
+                        <a class="links" href="?order_by=borrow&direction=asc">
+                            <i class="fa-solid fa-sort"></i>
+                        </a>
+                        {% endif %}
+                    </th>
+                    <th>Edit Details</th>
+                    <th>
+                        Returned
+                        {% if current_sort == "returned_asc" %}
+                        <a class="links" href="?order_by=returned&direction=desc">
+                            <i class="fa-solid fa-sort-up"></i>
+                        </a>
+                        {% elif current_sort == "returned_desc" %}
+                        <a class="links" href="?order_by=returned&direction=asc">
+                            <i class="fa-solid fa-sort-down"></i>
+                        </a>
+                        {% else %}
+                        <a class="links" href="?order_by=returned&direction=asc">
+                            <i class="fa-solid fa-sort"></i>
+                        </a>
+                        {% endif %}
+                    </th>
+                    <th>
+                        Returned On
+                        {% if current_sort == "return-date_asc" %}
+                        <a class="links" href="?order_by=return-date&direction=desc">
+                            <i class="fa-solid fa-sort-up"></i>
+                        </a>
+                        {% elif current_sort == "return-date_desc" %}
+                        <a class="links" href="?order_by=return-date&direction=asc">
+                            <i class="fa-solid fa-sort-down"></i>
+                        </a>
+                        {% else %}
+                        <a class="links" href="?order_by=return-date&direction=asc">
+                            <i class="fa-solid fa-sort"></i>
+                        </a>
+                        {% endif %}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for share in shared_objects %}
+                <tr>
+                    <td>{{ share.book.title }}</td>
+                    <td>
+                        {% if share_list == "Loaned" %}
+                        {% if share.borrower is not None %}
+                        {{ share.borrower }}
+                        {% else %}
+                        {{ share.borrower_alt }}
+                        {% endif %}
+                        {% else %}
+                        {{ share.loaner }}
+                        {% endif %}
+                    </td>
+                    <td>{{ share.date_shared }}</td>
+                    <td><a href="{% url 'sharing:share-update' share.id %}">Edit</a></td>
+                    <td>
+                        {% if share.returned %}
+                        Yes
+                        {% else %}
+                        No
+                        <a href="{% url 'sharing:share-return' share.id %}">Return</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if share.date_returned is None %}
+                        -
+                        {% else %}
+                        {{ share.date_returned }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No books to display</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </section>
 <!-- Pagination -->
 <div class="pagination d-flex flex-row justify-content-center">

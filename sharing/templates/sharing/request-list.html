@@ -9,7 +9,7 @@
 <!-- Page content -->
 {% block content %}
 <section class="container">
-  <a class="btns" href="{% url 'profiles:profile-detail' user.pk %}"><i class="fa-solid fa-arrow-left"></i> Go back</a>
+  <a class="links" href="{{request.META.HTTP_REFERER}}"><i class="fa-solid fa-arrow-left"></i> Go Back</a>
     <h1 class="text-center">{{ request_title }}</h1>
     <div>
         <p>{{ request_title }} number: {{ requests_count }}</p>

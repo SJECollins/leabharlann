@@ -312,14 +312,6 @@ hr {
   font-size: 0.75rem;
 }
 
-/* .table {
-  margin: 1rem auto;
-  width: 90%;
-  border-radius: 8px;
-  box-shadow: 0 0 4px var(--site-gray);
-  overflow: hidden;
-} */
-
 tbody,
 td,
 tfoot,
@@ -327,6 +319,11 @@ th,
 thead,
 tr {
   border-color: var(--site-light-green) !important;
+}
+
+td,
+th {
+  min-width: 140px;
 }
 
 .table > :not(caption) > * > * {
