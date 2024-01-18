@@ -183,12 +183,16 @@ def book_list(request):
     paginator = Paginator(books, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
+    if request.user.is_authenticated:
+        mybooks = MyBook.objects.filter(user=request.user)
+        has_books = [mybook.book for mybook in mybooks]
 
     context = {
         "page_obj": page_obj,
         "book_count": book_count,
         "current_filterkey": current_filterkey,
         "query_result": query if query else None,
+        "has_books": has_books if request.user.is_authenticated else None,
     }
     return render(request, "books/book-list.html", context)
 

@@ -9,14 +9,12 @@
 <!-- Quick Links-->
 <div class="container">
   <h1 class="text-center">Books</h1>
-  <div class="d-flex flex-row justify-content-evenly align-items-center book-shadow">
-    <a class="links" href="{% url 'home:index' %}"><i class="fa-solid fa-arrow-left"></i>
+  <div class="d-flex flex-column flex-sm-row justify-content-evenly align-items-center book-shadow">
+    <a class="links mb-2 mb-sm-0" href="{% url 'home:index' %}"><i class="fa-solid fa-arrow-left"></i>
       Home
     </a>
-    <a class="links" href="{% url 'books:author-list' %}"><i class="fa-solid fa-user-pen"></i> Authors </a>
-    <a class="links" href="{% url 'books:genre-list' %}"><i class="fa-solid fa-bookmark"></i> Genres </a>
     {% if user.is_authenticated %}
-    <a class="btns" href="{% url 'books:add-book' %}"><i class="fa-solid fa-plus"></i> Add Book</a>
+    <a class="btns mb-2 mb-sm-0" href="{% url 'books:add-book' %}"><i class="fa-solid fa-plus"></i> Add Book</a>
     {% endif %}
 
     <form method="GET" action="{% url 'books:book-list' %}" class="d-flex flex-row">
@@ -74,13 +72,17 @@
     </div>
     {% endif %}
     {% for book in page_obj %}
-    <div>
+    <div class="mb-4">
       <a href="{% url 'books:book-detail' book.id %}">
         <h4>{{ book }}</h4>
       </a>
       {% if user.is_authenticated %}
+      {% if book in has_books %}
+      <p>You have this book on your shelf.</p>
+      {% else %}
       <a class="btns" href="{% url 'mybooks:add-mybook' book_id=book.id %}"><i class="fa-solid fa-plus"></i> Add To My
         Books</a>
+      {% endif %}
       {% endif %}
     </div>
     {% empty %}
