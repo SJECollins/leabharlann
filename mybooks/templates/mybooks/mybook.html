@@ -10,23 +10,20 @@
 {% block content %}
 
 <section class="container">
-  <div class="d-flex flex-row justify-content-evenly book-shadow">
+  <div class="d-flex flex-column flex-sm-row justify-content-evenly align-items-center book-shadow">
     {% if user == mybook.user %}
-    <a class="links" href="{% url 'shelf:myshelf' user.pk %}"
-      ><i class="fa-solid fa-arrow-left"></i>
+    <a class="links mb-2 mb-sm-0" href="{% url 'shelf:myshelf' user.pk %}"><i class="fa-solid fa-arrow-left"></i>
       Back to My Shelf
     </a>
-    <a class="links" href="{% url 'mybooks:edit-mybook' mybook.id %}"
-      ><i class="fa-solid fa-pencil"></i>
+    <a class="links mb-2 mb-sm-0" href="{% url 'mybooks:edit-mybook' mybook.id %}"><i class="fa-solid fa-pencil"></i>
       Edit Book
     </a>
-    <a class="links" href="{% url 'mybooks:delete-book' mybook.id %}"
-      ><i class="fa-solid fa-trash"></i>
+    <a class="links" href="{% url 'mybooks:delete-book' mybook.id %}"><i class="fa-solid fa-trash"></i>
       Remove Book
     </a>
     {% else %}
-    <a class="links" href="{% url 'shelf:shelf' pk=shelf_owner.pk %}"
-      ><i class="fa-solid fa-arrow-left"></i>
+    <a class="links mb-2 mb-sm-0" href="{% url 'shelf:shelf' pk=shelf_owner.pk %}"><i
+        class="fa-solid fa-arrow-left"></i>
       Back to {{ mybook.user}}'s Shelf
     </a>
     <a class="links" href="{% url 'sharing:request-send' mybook.id %}">
@@ -40,17 +37,9 @@
   <div class="col-12 col-md-8 d-flex flex-column align-items-center mt-5">
     <div>
       {% if mybook.book.cover %}
-      <img
-        class="book-cover"
-        src="{{ mybook.book.cover.url }}"
-        alt="{{ mybook.book.title }}"
-      />
+      <img class="book-cover" src="{{ mybook.book.cover.url }}" alt="{{ mybook.book.title }}" />
       {% else %}
-      <img
-        class="book-cover"
-        src="{% static 'images/plain-cover.png' %}"
-        alt="{{ mybook.book.title }}"
-      />
+      <img class="book-cover" src="{% static 'images/plain-cover.png' %}" alt="{{ mybook.book.title }}" />
       {% endif %}
     </div>
     <div>
@@ -84,11 +73,8 @@
       {% else %}
       <p>No summary yet.</p>
       {% endif %} {% if user == mybook.user %}
-      <a class="btns"
-        data-hx-get="{% url 'mybooks:update-summary' mybook.id %}"
-        data-hx-target="#dialog"
-        >Edit Summary
-        </a>
+      <a class="btns" data-hx-get="{% url 'mybooks:update-summary' mybook.id %}" data-hx-target="#dialog">Edit Summary
+      </a>
       {% endif %}
     </div>
   </div>
@@ -99,11 +85,7 @@
       {% if mybook.number_of_times_read == 0 and unread %}
       <p>Unread</p>
       {% if user == mybook.user and not mybook.currently_reading %}
-      <a
-        class="btns mb-2"
-        data-hx-get="{% url 'mybooks:start' mybook.id %}"
-        data-hx-target="#dialog"
-      >
+      <a class="btns mb-2" data-hx-get="{% url 'mybooks:start' mybook.id %}" data-hx-target="#dialog">
         Start
       </a>
       {% endif %} {% else %}
@@ -115,19 +97,11 @@
       <p>Currently reading</p>
       <p>Started reading on: {{ mybook.started_reading_on }}</p>
       {% if user == mybook.user %}
-      <a
-        class="btns mb-2"
-        data-hx-get="{% url 'mybooks:finish' mybook.id %}"
-        data-hx-target="#dialog"
-      >
+      <a class="btns mb-2" data-hx-get="{% url 'mybooks:finish' mybook.id %}" data-hx-target="#dialog">
         Finish
       </a>
       <br>
-      <a
-        class="btns mb-2"
-        data-hx-get="{% url 'mybooks:abandon' mybook.id %}"
-        data-hx-target="#dialog"
-      >
+      <a class="btns mb-2" data-hx-get="{% url 'mybooks:abandon' mybook.id %}" data-hx-target="#dialog">
         Abandon
       </a>
       {% endif %} {% endif %}
@@ -137,11 +111,7 @@
       <p>Finished reading</p>
       <p>Finished reading on: {{ mybook.finished_reading_on }}</p>
       {% if user == mybook.user %}
-      <a
-        class="btns mb-2"
-        data-hx-get="{% url 'mybooks:start' mybook.id %}"
-        data-hx-target="#dialog"
-      >
+      <a class="btns mb-2" data-hx-get="{% url 'mybooks:start' mybook.id %}" data-hx-target="#dialog">
         Restart
       </a>
       {% endif %} {% endif %}
@@ -150,11 +120,7 @@
       {% if mybook.abandoned %}
       <p>Abandoned</p>
       {% if user == mybook.user %}
-      <a
-        class="btns mb-2"
-        data-hx-get="{% url 'mybooks:start' mybook.id %}"
-        data-hx-target="#dialog"
-      >
+      <a class="btns mb-2" data-hx-get="{% url 'mybooks:start' mybook.id %}" data-hx-target="#dialog">
         Restart
       </a>
       {% endif %} {% endif %}
@@ -166,10 +132,8 @@
       <p>Pages Read: {{ mybook.pages_read }}</p>
       <p>Percentage Read: {{ mybook.percentage_read }}%</p>
       {% if user == mybook.user %}
-      <a class="btns"
-        data-hx-get="{% url 'mybooks:update-progress' mybook.id %}"
-        data-hx-target="#dialog"
-        >Update Progress</a>
+      <a class="btns" data-hx-get="{% url 'mybooks:update-progress' mybook.id %}" data-hx-target="#dialog">Update
+        Progress</a>
       {% endif %}
     </div>
     <hr />
@@ -180,10 +144,7 @@
       {% else %}
       <p>No notes yet.</p>
       {% endif %} {% if user == mybook.user %}
-      <a class="btns" 
-        data-hx-get="{% url 'mybooks:update-notes' mybook.id %}"
-        data-hx-target="#dialog"
-        >Update Notes
+      <a class="btns" data-hx-get="{% url 'mybooks:update-notes' mybook.id %}" data-hx-target="#dialog">Update Notes
       </a>
       {% endif %}
     </div>
@@ -192,9 +153,7 @@
       <h3><i class="fa-solid fa-eye-slash"></i> Visibility</h3>
       {% if mybook.private %}
       <p>Private</p>
-      <a class="btns" href="{% url 'mybooks:private' mybook.id %}"
-        >Make Visible</a
-      >
+      <a class="btns" href="{% url 'mybooks:private' mybook.id %}">Make Visible</a>
       {% else %}
       <p>Visible on your shelf to other users.</p>
       <a class="btns" href="{% url 'mybooks:private' mybook.id %}">Hide</a>
@@ -216,19 +175,12 @@
     <p>Rating: {{ myreview.rating }} / 10</p>
     <p>Posted On: {{ myreview.date_added }}</p>
     {% if user == mybook.user %}
-    <a class="btns"
-      data-hx-get="{% url 'review:edit-review' myreview.id %}"
-      data-hx-target="#dialog"
-      >Edit Review</a>
-    <a class="btns-cancel" href="{% url 'review:delete-review' myreview.id %}"
-      >Delete Review</a>
+    <a class="btns" data-hx-get="{% url 'review:edit-review' myreview.id %}" data-hx-target="#dialog">Edit Review</a>
+    <a class="btns-cancel" href="{% url 'review:delete-review' myreview.id %}">Delete Review</a>
     {% endif %}
   </div>
   {% endif %} {% else %}
-  <a class="btns"
-    data-hx-get="{% url 'review:add-review' mybook.book.id %}"
-    data-hx-target="#dialog"
-    >Add Review</a>
+  <a class="btns" data-hx-get="{% url 'review:add-review' mybook.book.id %}" data-hx-target="#dialog">Add Review</a>
   {% endif %}
 </section>
 {% endblock %}

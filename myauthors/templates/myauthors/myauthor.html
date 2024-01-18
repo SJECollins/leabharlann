@@ -6,23 +6,21 @@
 
 {% block content %}
 <section class="container">
-    <div class="d-flex flex-row justify-content-evenly book-shadow">
+    <div class="d-flex flex-column flex-md-row justify-content-evenly align-items-center book-shadow">
         {% if user == myauthor.user %}
-        <a class="links" href="{% url 'shelf:myshelf' user.pk %}"><i class="fa-solid fa-arrow-left"></i>
+        <a class="links mb-2 mb-md-0" href="{% url 'shelf:myshelf' user.pk %}"><i class="fa-solid fa-arrow-left"></i>
             Back to My Shelf
         </a>
-        <a class="links" href="{% url 'myauthors:edit-myauthor' myauthor.id %}"><i class="fa-solid fa-pencil"></i>
+        <a class="links mb-2 mb-md-0" href="{% url 'myauthors:edit-myauthor' myauthor.id %}"><i
+                class="fa-solid fa-pencil"></i>
             Edit MyAuthor
         </a>
         <a class="links" href="{% url 'myauthors:delete-myauthor' myauthor.id %}"><i class="fa-solid fa-trash"></i>
             Remove MyAuthor
         </a>
-        <a class="links" href="{% url 'myauthors:myauthors' user.pk %}">
-            <i class="fa-solid fa-user-pencil"></i>
-            MyAuthors
-        </a>
         {% else %}
-        <a class="links" href="{% url 'shelf:shelf' pk=shelf_owner.pk %}"><i class="fa-solid fa-arrow-left"></i>
+        <a class="links mb-2 mb-sm-0" href="{% url 'shelf:shelf' pk=shelf_owner.pk %}"><i
+                class="fa-solid fa-arrow-left"></i>
             Back to {{ mygenre.user}}'s Shelf
         </a>
         <a class="links" href="{% url 'myauthors:myauthors' myauthor.user.pk %}">

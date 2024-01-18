@@ -9,18 +9,18 @@ List {% endblock %}
 {% block content %}
 
 <section class="container">
-  <div class="d-flex flex-row align-items-center justify-content-evenly book-shadow">
+  <div class="d-flex flex-column flex-md-row align-items-center justify-content-evenly book-shadow">
     {% if user == shelf_owner %}
-    <a class="links" href="{% url 'shelf:myshelf' user.pk %}"
+    <a class="links mb-2 mb-md-0" href="{% url 'shelf:myshelf' user.pk %}"
       ><i class="fa-solid fa-arrow-left"></i>
       Back to My Shelf
     </a>
-    <a class="btns" href="{% url 'mygenres:add-mygenre' %}"
+    <a class="btns mb-2 mb-md-0" href="{% url 'mygenres:add-mygenre' %}"
       ><i class="fa-solid fa-plus"></i>
       Add A Genre
     </a>
     {% else %}
-    <a class="links" href="{% url 'shelf:myshelf' shelf_owner.pk %}"
+    <a class="links mb-2 mb-md-0" href="{% url 'shelf:myshelf' shelf_owner.pk %}"
       ><i class="fa-solid fa-arrow-left"></i>
       Back to {{ shelf_owner}}'s Shelf
     </a>

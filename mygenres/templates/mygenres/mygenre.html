@@ -8,23 +8,21 @@
 
 {% block content %}
 <section class="container">
-    <div class="d-flex flex-row justify-content-evenly book-shadow">
+    <div class="d-flex flex-column flex-sm-row justify-content-evenly align-items-center book-shadow">
         {% if user == mygenre.user %}
-        <a class="links" href="{% url 'shelf:myshelf' user.pk %}"><i class="fa-solid fa-arrow-left"></i>
+        <a class="links mb-2 mb-sm-0" href="{% url 'shelf:myshelf' user.pk %}"><i class="fa-solid fa-arrow-left"></i>
             Back to My Shelf
         </a>
-        <a class="links" href="{% url 'mygenres:edit-mygenre' mygenre.id %}"><i class="fa-solid fa-pencil"></i>
+        <a class="links mb-2 mb-sm-0" href="{% url 'mygenres:edit-mygenre' mygenre.id %}"><i
+                class="fa-solid fa-pencil"></i>
             Edit MyGenre
         </a>
         <a class="links" href="{% url 'mygenres:delete-mygenre' mygenre.id %}"><i class="fa-solid fa-trash"></i>
             Remove MyGenre
         </a>
-        <a class="links" href="{% url 'mygenres:mygenres' user.pk %}">
-            <i class="fa-solid fa-user-bookmark"></i>
-            MyGenres
-        </a>
         {% else %}
-        <a class="links" href="{% url 'shelf:shelf' pk=shelf_owner.pk %}"><i class="fa-solid fa-arrow-left"></i>
+        <a class="links mb-2 mb-sm-0" href="{% url 'shelf:shelf' pk=shelf_owner.pk %}"><i
+                class="fa-solid fa-arrow-left"></i>
             Back to {{ mygenre.user}}'s Shelf
         </a>
         <a class="links" href="{% url 'mygenres:mygenres' mygenre.user.pk %}">

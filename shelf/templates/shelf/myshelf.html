@@ -15,7 +15,7 @@
 </section>
 <section class="container">
   <div class="col-12">
-    <div class="d-flex flex-row justify-content-evenly book-shadow">
+    <div class="d-flex flex-row justify-content-evenly book-shadow" id="large-nav">
       <a class="links" href="{% url 'mybooks:mybooks' pk=shelf_owner.pk %}">
         {% if user == shelf_owner %} My {% else %} {{ shelf_owner }}'s {% endif %} Books</a>
       <a class="links" href="{% url 'myauthors:myauthors' pk=shelf_owner.pk %}">
@@ -27,9 +27,31 @@
       <a class="links" href="{% url 'sharing:borrowed-list' %}">Borrowed</a>
       {% endif %}
     </div>
+    <div id="small-nav" class="mx-auto">
+      <p>
+        <button id="small-nav-btn" class="links" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNav"
+          aria-expanded="false" aria-controls="collapseNav">
+          Links
+        </button>
+      </p>
+      <div class="collapse" id="collapseNav">
+        <div class="book-shadow d-flex flex-column">
+          <a class="links" href="{% url 'mybooks:mybooks' pk=shelf_owner.pk %}">
+            {% if user == shelf_owner %} My {% else %} {{ shelf_owner }}'s {% endif %} Books</a>
+          <a class="links" href="{% url 'myauthors:myauthors' pk=shelf_owner.pk %}">
+            {% if user == shelf_owner %} My {% else %} {{ shelf_owner }}'s {% endif %} Authors</a>
+          <a class="links" href="{% url 'mygenres:mygenres' pk=shelf_owner.pk %}">
+            {% if user == shelf_owner %} My {% else %} {{ shelf_owner }}'s {% endif %} Genres</a>
+          {% if user == shelf_owner %}
+          <a class="links" href="{% url 'sharing:loaned-list' %}">Loaned</a>
+          <a class="links" href="{% url 'sharing:borrowed-list' %}">Borrowed</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
     {% if user == shelf_owner %}
-    <div class="d-flex justify-content-evenly align-items-center my-5">
-      <h2 class="mb-0">Add A Book To Your Shelf:</h2>
+    <div class="d-flex justify-content-evenly align-items-center my-md-5">
+      <h2 class="mb-0">Add To Shelf:</h2>
       <a class="btns" href="{% url 'mybooks:add-mybook' %}">Add Book</a>
     </div>
     {% endif %}

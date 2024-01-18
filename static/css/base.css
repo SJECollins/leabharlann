@@ -83,6 +83,14 @@ h4 {
   width: fit-content;
 }
 
+#large-nav {
+  display: block;
+}
+
+#small-nav {
+  display: none !important;
+}
+
 /* Footer Styling */
 
 footer {
@@ -322,4 +330,35 @@ tr {
 
 .table > :not(caption) > * > * {
   background-color: var(--site-white) !important;
+}
+
+/* Media Queries */
+
+@media (max-width: 768px) {
+  #large-nav {
+    display: none !important;
+  }
+
+  #small-nav {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    width: 360px;
+  }
+
+  #collapseNav {
+    width: 200px;
+    text-align: center;
+  }
+
+  #small-nav-btn {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  section {
+    margin-bottom: 0.5rem;
+  }
 }
