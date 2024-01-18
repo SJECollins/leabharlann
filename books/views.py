@@ -58,11 +58,16 @@ def author_list(request):
     paginator = Paginator(authors, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
+    if request.user.is_authenticated:
+        myauthors = MyAuthor.objects.filter(user=request.user)
+        has_authors = [myauthor.author for myauthor in myauthors]
+
     context = {
         "page_obj": page_obj,
         "author_count": author_count,
         "current_filterkey": current_filterkey,
         "query_result": query if query else None,
+        "has_authors": has_authors if request.user.is_authenticated else None,
     }
     return render(request, "books/author-list.html", context)
 
@@ -73,11 +78,16 @@ def author_detail(request, pk):
     Returns the author object with the primary key (pk) equal to the pk argument.
     """
     author = Author.objects.get(pk=pk)
+    books = Book.objects.filter(author=author)
     if request.user.is_authenticated:
         has_author = MyAuthor.objects.filter(user=request.user, author=author).first()
-    return render(
-        request, "books/author.html", {"author": author, "has_author": has_author}
-    )
+
+    context = {
+        "author": author,
+        "books": books,
+        "has_author": has_author,
+    }
+    return render(request, "books/author.html", context)
 
 
 def add_author(request):
@@ -312,12 +322,16 @@ def genre_list(request):
     paginator = Paginator(genres, 10)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
+    if request.user.is_authenticated:
+        mygenres = MyGenre.objects.filter(user=request.user)
+        has_genres = [mygenre.genre for mygenre in mygenres]
 
     context = {
         "page_obj": page_obj,
         "genre_count": genre_count,
         "current_filterkey": current_filterkey,
         "query_result": query if query else None,
+        "has_genres": has_genres if request.user.is_authenticated else None,
     }
     return render(request, "books/genre-list.html", context)
 
@@ -330,7 +344,13 @@ def genre_detail(request, pk):
     genre = Genre.objects.get(pk=pk)
     if request.user.is_authenticated:
         has_genre = MyGenre.objects.filter(user=request.user, genre=genre).first()
-    return render(request, "books/genre.html", {"genre": genre, "has_genre": has_genre})
+    books = Book.objects.filter(genre=genre)
+    context = {
+        "genre": genre,
+        "books": books,
+        "has_genre": has_genre,
+    }
+    return render(request, "books/genre.html", context)
 
 
 def add_genre(request):

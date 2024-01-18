@@ -180,6 +180,7 @@ a:hover {
   border-radius: 8px;
   padding: 0.5rem 1rem;
   transition: 0.3s;
+  width: fit-content;
 }
 
 .btns:hover,
@@ -360,5 +361,9 @@ tr {
 
   section {
     margin-bottom: 0.5rem;
+  }
+
+  .book-shadow {
+    padding: 1rem 0.5rem;
   }
 }

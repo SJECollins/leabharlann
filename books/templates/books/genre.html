@@ -18,14 +18,14 @@
             Books
         </a>
         <a class="links" href="{% url 'books:author-list' %}">
-            <i class="fa-solid fa-user-pencil"></i>
+            <i class="fa-solid fa-user-pen"></i>
             Authors
         </a>
     </div>
 </section>
 <section class="container">
     <div class="row">
-        <div class="col-8 mx-auto">
+        <div class="col-12 col-sm-8 mx-auto">
             <h1 class="text-center">{{ genre.name }}</h1>
             <div class="row">
                 <div class="col-12 col-lg-6">
@@ -48,12 +48,12 @@
     </div>
 </section>
 {% if user.is_authenticated %}
-<section class="container">
+<section class="container d-flex flex-column">
     <h2>Your Shelf</h2>
     {% if has_genre %}
     <p>You have this genre on your shelf.</p>
-    <a class="btns" href="{% url 'mygenres:mygenre-detail' has_genre.id %}">
-        View</a>
+    <a class="links" href="{% url 'mygenres:mygenre-detail' pk=has_genre.id user_id=user.id %}">
+        View On Shelf</a>
     {% else %}
     <p>You don't have this genre on your shelf.</p>
     <a class="btns" href="{% url 'mygenres:add-mygenre' genre.id %}">
@@ -62,5 +62,6 @@
     <a class="links" href="{ url 'shelf:myshelf' user.pk %}">
         Go To Your Shelf</a>
 </section>
+{% endif %}
 {% endblock %}
 ```
