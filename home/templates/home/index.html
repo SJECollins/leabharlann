@@ -29,6 +29,13 @@
         </div>
     </div>
 </section>
+<section class="container mb-4">
+    <div class="d-flex justify-content-evenly">
+        <h3><a class="links" href="{% url 'books:book-list' %}">All Books</a></h3>
+        <h3><a class="links" href="{% url 'books:author-list' %}">All Authors</a></h3>
+        <h3><a class="links" href="{% url 'books:genre-list' %}">All Genres</a></h3>
+    </div>
+</section>
 <section class="container">
     <div class="row">
         <div class="col-12 col-md-6">
@@ -45,9 +52,8 @@
             </div>
         </div>
         <div class="col-12 col-md-6">
-            <div>
+            <div class="mb-4">
                 <h3><i class="fa-solid fa-fire"></i> Popular Books:</h3>
-                <a class="links" href="{% url 'books:book-list' %}">View All Books</a>
                 {% for book in popular_books %}
                 <a class="links" href="{% url 'books:book-detail' book.id %}">
                     <h4>{{ book }}</h4>
@@ -56,9 +62,8 @@
                 <p>There are no popular books yet.</p>
                 {% endfor %}
             </div>
-            <div>
+            <div class="mb-4">
                 <h3><i class="fa-solid fa-fire"></i> Popular Authors:</h3>
-                <a class="links" href="{% url 'books:author-list' %}">View All Authors</a>
                 {% for author in popular_authors %}
                 <a class="links" href="{% url 'books:author-detail' author.id %}">
                     <h4>{{ author }}</h4>
@@ -67,9 +72,8 @@
                 <p>There are no popular authors yet.</p>
                 {% endfor %}
             </div>
-            <div>
+            <div class="mb-4">
                 <h3><i class="fa-solid fa-fire"></i> Popular Genres:</h3>
-                <a class="links" href="{% url 'books:genre-list' %}">View All Genres</a>
                 {% for genre in popular_genres %}
                 <a class="links" href="{% url 'books:genre-detail' genre.id %}">
                     <h4>{{ genre }}</h4>
@@ -88,7 +92,8 @@
         <div class="row">
             <div class="col-12 mb-4">
                 <h2>What is Mo Leabharlann?</h2>
-                <p>Mo Leabharlann is a personal library app. It allows you to keep track of the books you've read, the
+                <p>Mo Leabharlann is a personal library app. It allows you to keep track of the books you've read,
+                    the
                     books you're currently reading, and the books you want to read.</p>
                 <p>It also allows you to keep track of your favourite authors and genres.</p>
                 <p>It's a great way to keep track of your reading habits and to discover new books and authors.</p>
